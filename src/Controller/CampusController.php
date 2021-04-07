@@ -28,13 +28,29 @@ class CampusController extends AbstractController
 
         $campus = $entityManager->getRepository('App:Campus')->getAll('1');
 
-        return $this->render('campus/campusManagement.html.twig', ['campus'=>$campus]);
+        return $this->render('campus/list.twig', ['campus'=>$campus]);
     }
 
     /**
      * @Route(path="modifier/{id}", name="modify")
      */
-    public function modify() {
+    public function modify(Request $request, EntityManagerInterface $entityManager) {
+
+        $id = $request->get('id');
+        $campus = $entityManager->getRepository('App:Campus')->find($id);
+
+        $form = $this->createForm(CampusType::class, $campus);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($campus);
+            $entityManager->flush();
+            $this->addFlash('success', 'Modification campus');
+
+            return $this->redirectToRoute('campus_view');
+        }
+
+        return $this->render('campus/modify.html.twig',['campusForm'=>$form->createView()]);
 
     }
     /**
