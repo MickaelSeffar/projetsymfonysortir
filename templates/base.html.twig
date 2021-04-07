@@ -1,19 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
-        {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
-        {% endblock %}
 
-        {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
-        {% endblock %}
+        <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/pricing/">
+
+
+        <link href="https://getbootstrap.com/docs/5.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
     </head>
     <body>
-        {% block body %}{% endblock %}
+    <header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-body border-bottom shadow-sm">
+        <p class="h5 my-0 me-md-auto fw-normal">{% block name %}{% endblock %}</p>
+
+        <div class="col-12 col-md">
+            <img class="mb-2" src="https://external-preview.redd.it/HbG3Q2o5QT_9UUmAknsRe_GXgQdJRoFgJ6NLTI2oH_A.jpg?auto=webp&s=dbb412a5d5e50dfcc765d3f6249c83e0b051e16d" alt="" width="100" height="90">
+        </div>
+        <nav class="my-2 my-md-0 me-md-3">
+            <!--   {#% if app.admin %#}
+                <a class="p-2 text-dark" href="#">Villes</a>
+                <a class="p-2 text-dark" href="#">Campus</a>
+            {#% endif %#}-->
+
+            <a class="p-2 text-dark" href="#">Accueil</a>
+            <a class="p-2 text-dark" href="#">Mon profil</a>
+            {#% if app.user %#}
+            <a class="p-2 text-dark" href="#">Se déconnecter</a> <br>
+            {#% endif %#}
+            <span>Date du jour : {{ "now"|date("d/m/Y") }}<br>
+                Participant : {# { app.user.username }#}
+
+                </span>
+        </nav>
+
+    </header>
+
+    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row">
+
+            <div class="col-6 col-md">
+                <h5>Features</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="link-secondary" href="#">Cool stuff</a></li>
+                    <li><a class="link-secondary" href="#">Random feature</a></li>
+                    <li><a class="link-secondary" href="#">Team feature</a></li>
+                    <li><a class="link-secondary" href="#">Stuff for developers</a></li>
+                    <li><a class="link-secondary" href="#">Another one</a></li>
+                    <li><a class="link-secondary" href="#">Last time</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+                <h5>About</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="link-secondary" href="#">Privacy</a></li>
+                    <li><a class="link-secondary" href="#">Terms</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+            </div>
+        </div>
+    </footer>
     </body>
 </html>
