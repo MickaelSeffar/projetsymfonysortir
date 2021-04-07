@@ -26,16 +26,15 @@
                 <a class="p-2 text-dark" href="#">Villes</a>
                 <a class="p-2 text-dark" href="#">Campus</a>
             {#% endif %#}-->
-
-            <a class="p-2 text-dark" href="#">Accueil</a>
+            {% if app.user %}
+            <a class="p-2 text-dark" href="{{ path('home_welcome') }}">Accueil</a>
             <a class="p-2 text-dark" href="#">Mon profil</a>
-            {#% if app.user %#}
-            <a class="p-2 text-dark" href="#">Se déconnecter</a> <br>
-            {#% endif %#}
-            <span>Date du jour : {{ "now"|date("d/m/Y") }}<br>
-                Participant : {# {{ app.user.username }}#}
+            <a class="p-2 text-dark" href="{{ path('app_logout') }}">Se déconnecter</a>
+            {% endif %}
+            <div>Date du jour : {{ "now"|date("d/m/Y") }}<br>
+                Participant : {% if(app.user) %} {{ app.user.username }}{% endif %}
 
-                </span>
+                </div>
         </nav>
 
     </header>
