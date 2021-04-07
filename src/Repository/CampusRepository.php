@@ -19,6 +19,19 @@ class CampusRepository extends ServiceEntityRepository
         parent::__construct($registry, Campus::class);
     }
 
+    // Fonction afficher 10 résultat de campus
+
+    public function getAll($page = 1){
+
+        $req = $this->createQueryBuilder('campus')
+        ->where('campus.active = :active')->setParameter(':active',true)
+        ->orderBy('campus.name','ASC')
+        ->setFirstResult(($page - 1) * 10)
+        ->setMaxResults(10);
+
+        return $req->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Campus[] Returns an array of Campus objects
     //  */
