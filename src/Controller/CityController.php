@@ -74,8 +74,18 @@ class CityController extends AbstractController
     /**
      * @Route(path="supprimer/{id}", name="delete")
      */
-    public function delete() {
+    public function delete(Request $request, EntityManagerInterface $entityManager) {
+        $id = $request->get('id');
+        $city = $entityManager->getRepository('App:City')->find($id);
 
+        if ($city) {
+            $city->setActive(false);
+            $entityManager->persist($city);
+            $entityManager->flush();
+            $this->addFlash('success', 'Suppression ville');
+
+            return $this->redirectToRoute('city_view');
+        }
     }
 
 }
