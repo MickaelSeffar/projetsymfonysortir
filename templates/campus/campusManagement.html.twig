@@ -1,0 +1,13 @@
+{%  extends "base.html.twig" %}
+
+{% block body %}
+    <ul>
+        {% for campuss in campus %}
+            <li>{{ campuss.name }} <a href="#">Modifier</a> <a href="#">Supprimer</a></li>
+        {% endfor %}
+        <li><a href="{{ path('campus_add') }}">Ajouter</a></li>
+
+    </ul>
+
+
+{% endblock %}

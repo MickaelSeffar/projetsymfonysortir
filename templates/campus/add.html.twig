@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+        {{ form_start(campusForm) }}
+        {{ form_widget(campusForm) }}
+        <a href="{{ path('campus_add') }}">Ajouter</a>
+        {{ form_end(campusForm) }}
+
+{% endblock %}
