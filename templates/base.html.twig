@@ -30,7 +30,7 @@
             <a class="p-2 text-dark" href="#">Se déconnecter</a> <br>
             {#% endif %#}
             <span>Date du jour : {{ "now"|date("d/m/Y") }}<br>
-                Participant : {# { app.user.username }#}
+                Participant : {# {{ app.user.username }}#}
 
                 </span>
         </nav>

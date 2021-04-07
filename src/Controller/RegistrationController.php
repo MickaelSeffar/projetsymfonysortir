@@ -20,9 +20,17 @@ class RegistrationController extends AbstractController
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, AppAuthenticator $authenticator): Response
     {
         $user = new User();
+        // Je rajoute le champs obligatoire active
+        $user->setActive(true);
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
+        // J'indique le rôle selon la case coché Administator
 
+        if($user->getAdministrator()==true) {
+            $user->setRoles(['ROLE_ADMIN']);
+        }else{
+            $user->setRoles(['ROLE_USER']);
+        }
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(
