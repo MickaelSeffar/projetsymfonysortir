@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des villes{% endblock %}
+
+{% block body %}
+    <ul>
+        {% for city in cities %}
+            <li>{{ city.name }} - {{ city.postcode }} <a href="{{ url('city_modify', {"id": city.id}) }}">Modifier</a> <a href="#">Supprimer</a></li>
+        {% endfor %}
+        <li><a href="{{ url('city_add') }}">Ajouter</a></li>
+    </ul>
+{% endblock %}

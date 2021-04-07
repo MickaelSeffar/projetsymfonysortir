@@ -38,6 +38,11 @@
     </header>
     <div class="container">
         <h1>{%block titrePage %}{% endblock %}</h1>
+        {% for status, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="flash flash-{{ status }}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
         <div>{% block body %}{% endblock %}</div>
 
     </div>
