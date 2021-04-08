@@ -69,7 +69,10 @@ class ActivityController extends AbstractController
     /**
      * @Route(path="detail/{id}", name="detail")
      */
-    public function detail() {
+    public function detail(Request $request, EntityManagerInterface $entityManager) {
+        $id = $request->get('id');
+        $activity = $entityManager->getRepository('App:Activity')->find($id);
 
+        return $this->render('activity/detail.html.twig', ['activity' => $activity]);
     }
 }

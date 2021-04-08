@@ -18,7 +18,7 @@
                             <p>Description : {{ activity.detail | capitalize }}</p>
                             <div class="row">
                                 <p class="col">Cloture : {{ activity.registrationDeadline | date("d/m/Y") }}</p>
-                                <p class="col">Etat : {{ activity.state }}</p>
+                                <p class="col">Etat : {{ activity.state.name }}</p>
                             </div>
                         </div>
                         <div>
