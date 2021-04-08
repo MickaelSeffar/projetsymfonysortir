@@ -50,7 +50,8 @@ class CampusController extends AbstractController
             return $this->redirectToRoute('campus_view');
         }
 
-        return $this->render('campus/modify.html.twig',['campusForm'=>$form->createView()]);
+        return $this->render('campus/modify.html.twig',[
+            'campusForm'=>$form->createView()]);
 
     }
     /**
@@ -83,7 +84,21 @@ class CampusController extends AbstractController
     /**
      * @Route(path="supprimer/{id}", name="delete")
      */
-    public function delete() {
+    public function delete(Request $request, EntityManagerInterface $entityManager) {
+        $id = $request->get('id');
+        $campus = $entityManager->getRepository('App:Campus')->find($id);
+
+        if ($campus){
+            $campus->setActive(false);
+            $entityManager->persist($campus);
+            $entityManager->flush();
+            $this->addFlash('success', 'Suppression campus');
+
+            return $this->redirectToRoute('campus_view');
+        } else {
+            $this->addFlash('error', 'Suppression impossible');
+            return $this->redirectToRoute('city_view');
+        }
 
     }
 
