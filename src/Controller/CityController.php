@@ -5,9 +5,9 @@
 namespace App\Controller;
 
 use App\Entity\City;
-use App\Entity\Serie;
 use App\Form\CityType;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,24 +20,17 @@ use Symfony\Component\Routing\Annotation\Route;
 class CityController extends AbstractController
 {
 
-    /** @Route("{numPage}", requirements={"numPage":"\d+"}, name="serie_list") */
-    public function index($numPage)
-    {
-        $villeRepo = $this->getDoctrine()->getRepository(City::class);
-        $cities = $villeRepo->findWithNumber(10, $numPage);
-        return $this->render('city/list.html.twig', [
-            'city' => $cities,
-            'numPage' => $numPage,
-        ]);
-    }
+
 
     /**
      * @Route(path="", name="view", methods={"GET"})
      */
-    public function display(EntityManagerInterface $entityManager) {
+    public function display(EntityManagerInterface $entityManager,Request $request, PaginatorInterface $paginator) {
         // Get all cities in DB, by page.
-        $cities = $entityManager->getRepository('App:City')->getAll(1);
-
+        $cities = $entityManager->getRepository('App:City')->getAll();
+        $cities = $paginator->paginate($cities,
+            $request->query->getInt('page',1),10
+        );
         // Display the result in the TWIG page.
         return $this->render('city/list.html.twig', ['cities' => $cities]);
     }

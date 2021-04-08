@@ -26,8 +26,7 @@ class CityRepository extends ServiceEntityRepository
         $req = $this->createQueryBuilder('city')
             ->where('city.active = :active')->setParameter(':active', true)
             ->orderBy('city.postcode', 'ASC')
-            ->setFirstResult(($page - 1) * 10)
-            ->setMaxResults(10);
+           ;
 
         return $req->getQuery()->getResult();
 

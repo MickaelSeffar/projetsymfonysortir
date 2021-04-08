@@ -8,5 +8,6 @@
             <li>{{ city.name }} - {{ city.postcode }} <a href="{{ url('city_modify', {"id": city.id}) }}">Modifier</a> <a href="{{ url('city_delete', {"id": city.id}) }}">Supprimer</a></li>
         {% endfor %}
         <li><a href="{{ url('city_add') }}">Ajouter</a></li>
+        {{ knp_pagination_render(cities) }}
     </ul>
 {% endblock %}
