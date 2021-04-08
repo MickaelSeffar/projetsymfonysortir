@@ -25,7 +25,6 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
         // J'indique le rôle selon la case coché Administator
-
         if($user->getAdministrator()==true) {
             $user->setRoles(['ROLE_ADMIN']);
         }else{
@@ -39,20 +38,15 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email
-
-            return $guardHandler->authenticateUserAndHandleSuccess(
-                $user,
-                $request,
-                $authenticator,
-                'main' // firewall name in security.yaml
-            );
+            // Retour en mode Post
+            $this->addFlash('success', 'Le nouvel utilisateur '.$user->getUsername().' a bien été enregistré');
+            return $this->redirectToRoute('app_register');
         }
-
+    // Retour en mode Get
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);

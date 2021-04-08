@@ -13,7 +13,6 @@ class EditUserType extends AbstractType
     {
         $builder
             ->add('username')
-            ->add('password')
             ->add('name')
             ->add('firstName')
             ->add('phone')

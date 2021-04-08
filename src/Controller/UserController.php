@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Class UserController
@@ -27,30 +28,30 @@ class UserController extends AbstractController
     /**
      * @Route(path="modifier", name="edit")
      */
-    public function edit(Request $request,UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler) {
+    public function edit(Request $request,UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler,ValidatorInterface $validator) {
         // Récupération du User connecté
         $userconnecte=$this->getUser();
         // Je l'ai place dans les champs
         $form = $this->createForm(EditUserType::class, $userconnecte);
-
+        // J'hydrate le formulaire
+        $form->handleRequest($request);
+        $errors=$validator->validate($userconnecte);
+        // en post je tombe dans le if
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
-            $userconnecte->setPassword(
-                $passwordEncoder->encodePassword(
-                    $userconnecte,
-                    $form->get('plainPassword')->getData()
-                )
-            );
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($userconnecte);
             $entityManager->flush();
-            return $this->render('user/edit.html.twig', [
-                'editForm' => $form->createView()
-            ]);
+            // Je rajoute un message flash de succès
+            $this->addFlash('success','Vos modifications ont bien été prises en compte');
+        }
+        // En get
+        if(count($errors)>0){
+           $this>$this->addFlash('error',(string)$errors[0]);
         }
 
         return $this->render('user/edit.html.twig',[
-            'editForm' => $form->createView()
+            'editForm' => $form->createView(),
+
         ]);
      }
     /**
