@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une sortie{% endblock %}
+
+{%  block titrePage %}Ajouter une sortie{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+    {{ form_row(form.name, {label: 'Nom de la sortie'}) }}
+    {{ form_row(form.beginDateTime, {label: 'Date et heure de la sortie'}) }}
+    {{ form_row(form.registrationDeadline, {label: 'Date limite d\'inscription'}) }}
+    {{ form_row(form.maximumUserNumber, {label: 'Nombre de places'}) }}
+    {{ form_row(form.duration, {label: 'Durée'}) }}
+    {{ form_row(form.detail, {label: 'Description et infos'}) }}
+    {{ form_row(form.campus, {label: 'Campus'}) }}
+    {{ form_row(form.location, {label: 'Lieu'}) }}
+
+
+
+    <button type="submit" class="btn btn-secondary">Enregistrer</button>
+    {{ form_end(form) }}
+{#    {{ form_start(form) }}#}
+{#    {{ form_widget(form) }}#}
+{#    <button type="submit">Add</button>#}
+{#    {{ form_end(form) }}#}
+{% endblock %}

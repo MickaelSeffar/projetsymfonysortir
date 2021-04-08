@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block titrePage %}Liste des sorties{% endblock %}
+
+{% block body %}
+    <div>
+        {% for activity in activities %}
+            <div class="w-50 p-3 container border border-dark rounded">
+                <div class="row">
+                    <text class="col font-weight-bold">{{ activity.name | capitalize }}</text>
+                    <p class="col text-right">{{ activity.currentUserNumber }}{{ activity.currentUserNumber < 1 ? '0' : '' }}
+                        /{{ activity.maximumUserNumber }}</p>
+                </div>
+                <div>
+                    <div>
+                        <div>
+                            <p>Date de la sortie : {{ activity.beginDateTime | date("d/m/Y") }}</p>
+                            <p>Description : {{ activity.detail | capitalize }}</p>
+                            <div class="row">
+                                <p class="col">Cloture : {{ activity.registrationDeadline | date("d/m/Y") }}</p>
+                                <p class="col">Etat : {{ activity.state }}</p>
+                            </div>
+                        </div>
+                        <div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <a href="{{ url('activity_detail', {"id": activity.id}) }}"
+                       class="btn btn-sm btn-outline-secondary">Afficher</a>
+                    <a href="{{ url('activity_detail', {"id": activity.id}) }}"
+                       class="btn btn-sm btn-outline-secondary">S'inscrire</a>
+                    <a href="{{ url('activity_detail', {"id": activity.id}) }}"
+                       class="btn btn-sm btn-outline-secondary">Se désister</a>
+                    <a href="{{ url('activity_modify', {"id": activity.id}) }}"
+                       class="btn btn-sm btn-outline-secondary">Modifier</a>
+                    <a href="{{ url('activity_cancel', {"id": activity.id}) }}"
+                       class="btn btn-sm btn-outline-secondary">Supprimer</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+

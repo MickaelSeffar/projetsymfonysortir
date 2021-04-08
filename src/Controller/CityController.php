@@ -85,6 +85,9 @@ class CityController extends AbstractController
             $this->addFlash('success', 'Suppression ville');
 
             return $this->redirectToRoute('city_view');
+        } else {
+            $this->addFlash('error', 'Suppression impossible');
+            return $this->redirectToRoute('city_view');
         }
     }
 

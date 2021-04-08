@@ -11,3 +11,6 @@
 .flash-error {
     background-color: #dc3545;
 }
+li {
+    list-style: none;
+}
