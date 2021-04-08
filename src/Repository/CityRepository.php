@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\City;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -30,5 +31,26 @@ class CityRepository extends ServiceEntityRepository
 
         return $req->getQuery()->getResult();
 
+    }
+
+    public function findWithNumber($limit, $numPage)
+    {
+        $qb = $this->createQueryBuilder('cit')
+            ->join('cit.', 'sea')
+            ->addSelect('sea')
+            ->setMaxResults($limit)
+            ->setFirstResult(($numPage - 1) * $limit)
+            ->orderBy("ser.id","ASC");
+
+        $query = $qb->getQuery();
+        return new Paginator($query);
+        //return $query->getResult();
+    }
+
+
+    public function nbPages($nbLine)
+    {
+        $qb = $this->createQueryBuilder('serie');
+        $query = $qb->getQuery();
     }
 }

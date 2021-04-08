@@ -5,6 +5,7 @@
 namespace App\Controller;
 
 use App\Entity\City;
+use App\Entity\Serie;
 use App\Form\CityType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,6 +19,17 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CityController extends AbstractController
 {
+
+    /** @Route("{numPage}", requirements={"numPage":"\d+"}, name="serie_list") */
+    public function index($numPage)
+    {
+        $villeRepo = $this->getDoctrine()->getRepository(City::class);
+        $cities = $villeRepo->findWithNumber(10, $numPage);
+        return $this->render('city/list.html.twig', [
+            'city' => $cities,
+            'numPage' => $numPage,
+        ]);
+    }
 
     /**
      * @Route(path="", name="view", methods={"GET"})
