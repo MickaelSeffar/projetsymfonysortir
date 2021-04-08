@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail sortie{% endblock %}
+ {% block titrePage %}Détail sortie : {{ activity.name }}{% endblock %}
+{% block body %}
+    {# Bloc Principal #}
+    <div class="container w-100 p-3">
+        <div class="row">
+            {# Bloc GAUCHE #}
+            <div class="col-sm w-50 p-3">
+                <p class="row">Campus : {{ activity.campus.name }}</p>
+                <p class="row">Date et heure de la sortie : {{ activity.beginDateTime | date("d/m/Y H:m:s") }}</p>
+                <p class="row">Date limite d'inscription : {{ activity.registrationDeadline | date("d/m/Y H:m:s") }}</p>
+                <p class="row">Nombre de place restante
+                    : {{ activity.maximumUserNumber - activity.currentUserNumber }}</p>
+                <p class="row">Durée : {{ activity.duration }} minutes</p>
+            </div>
+            {# Bloc DROIT #}
+            <div class="col-sm w-50 p-3">
+                <p class="row">Lieu : {{ activity.location.name }}</p>
+                <p class="row">Rue : {{ activity.location.road }}</p>
+                <p class="row">Code postal : {{ activity.location.city.postcode }}</p>
+                <p class="row">Latitude : {{ activity.location.latitude }}</p>
+                <p class="row">Longitude : {{ activity.location.longitude }}</p>
+            </div>
+            {# Bloc DESCRIPTION #}
+            <div class="row">
+                Description et infos :
+                <textarea readonly>{{ activity.detail }}</textarea>
+            </div>
+            {# Bloc LISTE PARTICIPANT #}
+            <div>
+                {% for participants in activity. %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
