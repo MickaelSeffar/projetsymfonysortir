@@ -5,7 +5,9 @@
 namespace App\Controller;
 
 use App\Entity\Activity;
+use App\Entity\Location;
 use App\Form\ActivityType;
+use App\Form\LocationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +26,13 @@ class ActivityController extends AbstractController
      */
     public function add(Request $request, EntityManagerInterface $entityManager) {
         $activity = new Activity();
+        // Récupérer l'état 2
+        $
 
+        //$activity->setState()
+        //$location = new Location();
+        //$formLocation = $this->createForm(LocationType::class,$location);
+        //$formLocation = $this->createForm($request);
         $form = $this->createForm(ActivityType::class, $activity);
         $form->handleRequest($request);
 
@@ -35,7 +43,7 @@ class ActivityController extends AbstractController
 
             return $this->redirectToRoute('activity_view');
         }
-        return $this->render('activity/add.html.twig', ['form' => $form->createView()]);
+        return $this->render('activity/add.html.twig', ['formActivity' => $form->createView()]);
     }
     /**
      * @Route(path="", name="view")

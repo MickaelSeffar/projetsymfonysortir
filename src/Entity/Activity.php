@@ -58,7 +58,7 @@ class Activity
     private $state;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Location::class)
+     * @ORM\ManyToOne(targetEntity=Location::class, cascade={"persist"})
      */
     private $location;
 
