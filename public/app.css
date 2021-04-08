@@ -11,6 +11,9 @@
 .flash-error {
     background-color: #dc3545;
 }
+.listeMod{
+    list-style-type: none;
+}
 li {
     list-style: none;
 }

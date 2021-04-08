@@ -26,13 +26,23 @@
                 <a class="p-2 text-dark" href="#">Villes</a>
                 <a class="p-2 text-dark" href="#">Campus</a>
             {#% endif %#}-->
+            {% if (app.user)  %}
+                {% for role in app.user.roles %}
+                    {% if(role=="ROLE_ADMIN") %}
+                        <a class="p-2 text-dark" href="{{ path('app_register') }}">Ajouter un utilisateur</a>
+                        <a class="p-2 text-dark" href="{{ path('city_view') }}">Villes</a>
+                        <a class="p-2 text-dark" href="{{ path('campus_view') }}">Campus</a>
+                    {% endif %}
+                {%  endfor%}
+            {% endif %}
+
             {% if app.user %}
             <a class="p-2 text-dark" href="{{ path('home_welcome') }}">Accueil</a>
-            <a class="p-2 text-dark" href="#">Mon profil</a>
+            <a class="p-2 text-dark" href="{{ path('user_edit') }}">Mon profil</a>
             <a class="p-2 text-dark" href="{{ path('app_logout') }}">Se déconnecter</a>
             {% endif %}
-            <div>Date du jour : {{ "now"|date("d/m/Y") }}<br>
-                Participant : {% if(app.user) %} {{ app.user.username }}{% endif %}
+            {% if(app.user) %}<div>Date du jour : {{ "now"|date("d/m/Y") }}<br>
+                 Participant :{{ app.user.username }}{% endif %}
 
                 </div>
         </nav>
@@ -50,26 +60,13 @@
     </div>
     <footer class="pt-4 my-md-5 pt-md-5 border-top">
         <div class="row">
-
-            <div class="col-6 col-md">
-                <h5>Features</h5>
-                <ul class="list-unstyled text-small">
-                    <li><a class="link-secondary" href="#">Cool stuff</a></li>
-                    <li><a class="link-secondary" href="#">Random feature</a></li>
-                    <li><a class="link-secondary" href="#">Team feature</a></li>
-                    <li><a class="link-secondary" href="#">Stuff for developers</a></li>
-                    <li><a class="link-secondary" href="#">Another one</a></li>
-                    <li><a class="link-secondary" href="#">Last time</a></li>
-                </ul>
-            </div>
-            <div class="col-6 col-md">
-                <h5>About</h5>
-                <ul class="list-unstyled text-small">
+            <div class="col-12 ">
+                <h5 class="text-center">About</h5>
+                <ul class="list-unstyled text-small text-center">
                     <li><a class="link-secondary" href="#">Privacy</a></li>
                     <li><a class="link-secondary" href="#">Terms</a></li>
                 </ul>
-            </div>
-            <div class="col-6 col-md">
+                    <p class="text-center">Paul Mickaël Delphine</p>
             </div>
         </div>
     </footer>

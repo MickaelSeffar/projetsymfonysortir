@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Profil{% endblock %}
+{%  block titrePage %}Mon Profil{% endblock %}
+{% block body %}
+    {{ form_start(editForm) }}
+    {{ form_row(editForm.username, {label: 'Pseudo'}) }}
+    {{ form_row(editForm.firstName, {label: 'Prénom'}) }}
+    {{ form_row(editForm.name, {label: 'Nom'}) }}
+    {{ form_row(editForm.phone, {label: 'Téléphone'}) }}
+    {{ form_row(editForm.email, {label: 'Email'})}}
+    {{ form_row(editForm.campus, {label: 'Campus'}) }}
+    {{ form_end(editForm) }}
+
+    <button type="submit" class="btn btn-secondary">Enregistrer</button>
+    <a href="{{ path('home_welcome')}}"><button class="btn btn-secondary">Annuler</button></a>
+
+{% endblock %}
