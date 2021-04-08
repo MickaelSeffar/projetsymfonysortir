@@ -94,6 +94,7 @@ class AppFixtures extends Fixture
         $user->setFirstName("Gérard");
         $user->setName("Menvussat");
         $user->setPhone("0687654321");
+        $user->setAdministrator(true);
         $user->setRoles(['ROLE_ADMIN']);
         $user->setPassword($this->encoder->encodePassword($user, "azerty"));
 
