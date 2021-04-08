@@ -73,7 +73,7 @@ class Activity
     private $cancellationReason;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="ActivityManager")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="ActivityManager", cascade="persist")
      */
     private $manager;
 

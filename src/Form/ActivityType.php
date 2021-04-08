@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Activity;
+use App\Entity\City;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -22,7 +23,9 @@ class ActivityType extends AbstractType
             ->add('duration')
             ->add('detail')
             ->add('campus')
-            ->add('location')
+            // Créer le lieu pour faire fonctionner les relations entre location et activity
+            ->add('location', LocationType::class)
+//            ->add('city', CityType::class, ['data' => City::class])
         ;
     }
 
