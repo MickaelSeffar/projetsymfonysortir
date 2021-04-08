@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Activity;
 use App\Entity\Location;
+use App\Entity\State;
 use App\Form\ActivityType;
 use App\Form\LocationType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,9 +27,10 @@ class ActivityController extends AbstractController
      */
     public function add(Request $request, EntityManagerInterface $entityManager) {
         $activity = new Activity();
-        // Récupérer l'état 2
-        $
-
+        // Récupérer id Etat enregistrer=4(En Création) Publier=2(ouvert)
+        //$currentState= $entityManager->getRepository(State::class)->find($request->get('idState'));
+        $currentState= $entityManager->getRepository(State::class)->find('4');
+        $activity->setState($currentState);
         //$activity->setState()
         //$location = new Location();
         //$formLocation = $this->createForm(LocationType::class,$location);
