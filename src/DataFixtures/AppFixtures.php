@@ -70,35 +70,39 @@ class AppFixtures extends Fixture
         $allLocation = $manager->getRepository(Location::class)->findAll();
 
 
-        $user = new User();
-        $user->setUsername("User");
-        $user->setActive(true);
-        $user->setAdministrator(false);
-        $user->setCampus($faker->RandomElement($allCampus));
-        $user->setEmail("user@test.com");
-        $user->setFirstName("Camille");
-        $user->setName("Onette");
-        $user->setPhone("0612345678");
-        $user->setRoles(['ROLE_USER']);
-        $user->setPassword($this->encoder->encodePassword($user, "azerty"));
+        for ($i = 0; $i < 50; $i++) {
 
-        $manager->persist($user);
-        $manager->flush();
+            $user = new User();
+            $user->setUsername($faker->userName);
+            $user->setActive($faker->boolean);
+            $user->setAdministrator(false);
+            $user->setCampus($faker->RandomElement($allCampus));
+            $user->setEmail($faker->email);
+            $user->setFirstName($faker->firstName);
+            $user->setName($faker->lastName);
+            $user->setPhone("0612345678");
+            $user->setRoles(['ROLE_USER']);
+            $user->setPassword($this->encoder->encodePassword($user, "azerty"));
 
-        $user = new User();
-        $user->setUsername("Admin");
-        $user->setActive(true);
-        $user->setAdministrator(false);
-        $user->setCampus($faker->RandomElement($allCampus));
-        $user->setEmail("admin@test.com");
-        $user->setFirstName("Gérard");
-        $user->setName("Menvussat");
-        $user->setPhone("0687654321");
-        $user->setAdministrator(true);
-        $user->setRoles(['ROLE_ADMIN']);
-        $user->setPassword($this->encoder->encodePassword($user, "azerty"));
+            $manager->persist($user);
+        }
+            $manager->flush();
 
-        $manager->persist($user);
+            $user = new User();
+            $user->setUsername("Admin");
+            $user->setActive(true);
+            $user->setAdministrator(false);
+            $user->setCampus($faker->RandomElement($allCampus));
+            $user->setEmail("admin@test.com");
+            $user->setFirstName("Gérard");
+            $user->setName("Menvussat");
+            $user->setPhone("0687654321");
+            $user->setAdministrator(true);
+            $user->setRoles(['ROLE_ADMIN']);
+            $user->setPassword($this->encoder->encodePassword($user, "azerty"));
+
+            $manager->persist($user);
+
         $manager->flush();
         $allUser = $manager->getRepository(User::class)->findAll();
 
