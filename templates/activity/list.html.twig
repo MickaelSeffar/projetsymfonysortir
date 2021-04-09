@@ -29,7 +29,7 @@
                 <div class="btn-group">
                     <a href="{{ url('activity_detail', {"id": activity.id}) }}"
                        class="btn btn-sm btn-outline-secondary">Afficher</a>
-                    <a href="{{ url('activity_detail', {"id": activity.id}) }}"
+                    <a href="{{ url('register_activityRegistration',{"activityId": activity.id},{"userId": app.user.id} ) }}"
                        class="btn btn-sm btn-outline-secondary">S'inscrire</a>
                     <a href="{{ url('activity_detail', {"id": activity.id}) }}"
                        class="btn btn-sm btn-outline-secondary">Se désister</a>
