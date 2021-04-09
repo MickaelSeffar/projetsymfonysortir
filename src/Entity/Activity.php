@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ActivityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -76,6 +77,16 @@ class Activity
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="ActivityManager", cascade="persist")
      */
     private $manager;
+
+    /**
+     * @ORM\OneToMany (targetEntity="App\Entity\Register",mappedBy="activity")
+     */
+    private $registrations;
+
+    public function __construct()
+    {
+        $this->registrations=new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -225,4 +236,21 @@ class Activity
 
         return $this;
     }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getRegistrations(): ArrayCollection
+    {
+        return $this->registrations;
+    }
+
+    /**
+     * @param ArrayCollection $registrations
+     */
+    public function setRegistrations(ArrayCollection $registrations): void
+    {
+        $this->registrations = $registrations;
+    }
+
 }

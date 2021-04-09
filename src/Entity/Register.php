@@ -23,7 +23,7 @@ class Register
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Activity::class)
+     * @ORM\ManyToOne(targetEntity=Activity::class, inversedBy="registrations")
      */
     private $activity;
 

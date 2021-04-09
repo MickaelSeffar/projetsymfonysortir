@@ -6,6 +6,7 @@
 {% block body %}
 
     {{ form_start(editForm) }}
+
     {{ form_row(editForm.username, {label: 'Pseudo'}) }}
     {{ form_row(editForm.firstName, {label: 'Prénom'} ,{'attr': required}) }}
     {{ form_row(editForm.name, {label: 'Nom'}) }}

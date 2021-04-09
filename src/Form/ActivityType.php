@@ -7,6 +7,7 @@ use App\Entity\City;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -25,7 +26,8 @@ class ActivityType extends AbstractType
             ->add('campus')
             // Créer le lieu pour faire fonctionner les relations entre location et activity
             ->add('location', LocationType::class)
-//            ->add('city', CityType::class, ['data' => City::class])
+            ->add('publier',SubmitType::class,['label'=>'publier'])
+           //            ->add('city', CityType::class, ['data' => City::class])
         ;
     }
 

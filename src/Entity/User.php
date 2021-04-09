@@ -26,7 +26,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Assert\Type(type="string", message="Le pseudo ne doit contenir que du texte")
-     * @Assert\Length(min="3", minMessage="Le pseudo est trop court. Min 5 caractères")
+     * @Assert\Length(min="5", minMessage="Le pseudo est trop court. Min 5 caractères")
      */
     private $username;
 

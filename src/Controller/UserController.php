@@ -35,7 +35,7 @@ class UserController extends AbstractController
         $form = $this->createForm(EditUserType::class, $userconnecte);
         // J'hydrate le formulaire
         $form->handleRequest($request);
-        $errors=$validator->validate($userconnecte);
+
         // en post je tombe dans le if
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -45,10 +45,6 @@ class UserController extends AbstractController
             $this->addFlash('success','Vos modifications ont bien été prises en compte');
         }
         // En get
-        if(count($errors)>0){
-           $this>$this->addFlash('error',(string)$errors[0]);
-        }
-
         return $this->render('user/edit.html.twig',[
             'editForm' => $form->createView(),
 
