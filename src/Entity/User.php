@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"username"}, message="There is already an account with this username")
@@ -43,17 +44,28 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Votre nom ne doit pas contenir de chiffre"
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Regex(
+     *     pattern="/\d/",
+     *     match=false,
+     *     message="Votre prénom ne doit pas contenir de chiffre"
+     * )
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=10)
-     */
+     * @Assert\Regex(pattern="#^0[1-68]([-. ]?[0-9]{2}){4}$#", message="Merci d'entrer 10 chiffres")
+      */
     private $phone;
 
     /**
@@ -83,6 +95,10 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email(
+     *     strict=false,
+     *     message="Merci d'entrer un email correct"
+     * )
      */
     private $email;
 
