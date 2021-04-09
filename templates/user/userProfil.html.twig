@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Affichage du profil de {{ profil.username }}{% endblock %}
+ {%  block titrePage %}{{ profil.username }}{% endblock %}
+{% block body %}
+    <div>
+        <ul>
+            <li>Prénom {{ profil.firstname }}</li>
+            <li>Nom {{ profil.name }}</li>
+            <li>Téléphone {{ profil.phone }}</li>
+            <li>Email {{ profil.email }}</li>
+            <li>Campus {{ profil.campus.name }}</li>
+        </ul>
+    </div>
+{% endblock %}
