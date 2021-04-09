@@ -47,4 +47,13 @@ class ActivityRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function getUserFromRegister($id) {
+        $req = $this->createQueryBuilder('activity')
+            ->select('activity.registrations')
+            ->join('activity.user')
+            ->where('activity.id = :id')->setParameter(':id', $id);
+
+        return $req->getQuery()->getResult();
+    }
 }

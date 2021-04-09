@@ -29,8 +29,13 @@
                 <textarea readonly>{{ activity.detail }}</textarea>
             </div>
             {# Bloc LISTE PARTICIPANT #}
-            <div>
-
+            <div class="row">
+                Liste des participants :
+                {% for registration in users %}
+                    <p> - {{ registration.user.name }}</p>
+{#                    <p> YOLO 2 : {{ registration.user.username }}</p>#}
+{#                    <p> YOLO 2 : {{ registration.user.id }}</p>#}
+                {% endfor %}
             </div>
         </div>
     </div>

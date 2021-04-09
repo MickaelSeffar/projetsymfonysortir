@@ -79,7 +79,8 @@ class ActivityController extends AbstractController
     public function detail(Request $request, EntityManagerInterface $entityManager) {
         $id = $request->get('id');
         $activity = $entityManager->getRepository('App:Activity')->find($id);
+        $users = $entityManager->getRepository('App:Register')->getUserFromRegister($id);
 
-        return $this->render('activity/detail.html.twig', ['activity' => $activity]);
+        return $this->render('activity/detail.html.twig', ['activity' => $activity, 'users' => $users]);
     }
 }

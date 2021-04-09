@@ -47,4 +47,15 @@ class RegisterRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function getUserFromRegister($id) {
+        $req = $this->createQueryBuilder('reg')
+            ->join('reg.activity', 'act')
+            ->join('reg.user', 'usr')
+            ->select('usr')
+            ->addSelect('reg')
+            ->where('act.id = :id')->setParameter(':id', $id);
+
+        return $req->getQuery()->getResult();
+    }
 }
