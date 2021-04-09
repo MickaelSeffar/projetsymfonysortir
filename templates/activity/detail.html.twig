@@ -32,9 +32,7 @@
             <div class="row">
                 Liste des participants :
                 {% for registration in users %}
-                    <p> - {{ registration.user.name }}</p>
-{#                    <p> YOLO 2 : {{ registration.user.username }}</p>#}
-{#                    <p> YOLO 2 : {{ registration.user.id }}</p>#}
+                    <a href="{{ url('user_other', {'id': registration.user.id}) }}"> - {{ registration.user.name }}</a>
                 {% endfor %}
             </div>
         </div>

@@ -64,5 +64,15 @@ class UserController extends AbstractController
 
     }
 
+    /**
+     * @Route(path="utilisateur/{id}", name="other")
+     */
+    public function displayProfil(Request $request, EntityManagerInterface $entityManager) {
+        $id = $request->get('id');
+        $profil = $entityManager->getRepository('App:User')->find($id);
+
+        return $this->render('user/userProfil.html.twig', ['profil' => $profil]);
+    }
+
 
 }
