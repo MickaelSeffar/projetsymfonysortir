@@ -9,6 +9,8 @@ use App\Entity\Campus;
 use App\Form\CampusType;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\Paginator;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,10 +26,14 @@ class CampusController extends AbstractController
     /**
      * @Route(path="", name="view", methods={"GET"})
      */
-    public function display(EntityManagerInterface $entityManager) {
+    public function display(EntityManagerInterface $entityManager, Request $request, PaginatorInterface $paginator) {
 
-        $campus = $entityManager->getRepository('App:Campus')->getAll('1');
+        $campus = $entityManager->getRepository('App:Campus')->getAll();
+        $campus = $paginator->paginate($campus,
+            $request->query->getInt('page',1),
+            10
 
+        );
         return $this->render('campus/list.twig', ['campus'=>$campus]);
     }
 

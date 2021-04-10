@@ -5,5 +5,8 @@
     {{ form_widget(campusForm) }}
     <button type="submit">Modifier</button>
     {{ form_end(campusForm) }}
-
+    <div>
+        <a href="{{ url('campus_view') }}"
+           class="btn btn-sm btn-outline-secondary">Retour</a>
+    </div>
 {% endblock %}

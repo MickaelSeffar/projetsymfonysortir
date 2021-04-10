@@ -8,4 +8,8 @@
     {{ form_widget(form) }}
     <button type="submit">Modifier</button>
     {{ form_end(form) }}
+    <div>
+        <a href="{{ url('city_view') }}"
+           class="btn btn-sm btn-outline-secondary">Retour</a>
+    </div>
 {% endblock %}

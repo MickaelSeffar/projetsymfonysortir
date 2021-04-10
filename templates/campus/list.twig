@@ -6,7 +6,7 @@
             <li>{{ campuss.name }} <a href="{{ url('campus_modify', {'id': campuss.id}) }}">Modifier</a> <a href="{{ url('campus_delete', {"id": campuss.id}) }}">Supprimer</a></li>
         {% endfor %}
         <li><a href="{{ path('campus_add') }}">Ajouter</a></li>
-
+        {{ knp_pagination_render(campus) }}
     </ul>
 
 

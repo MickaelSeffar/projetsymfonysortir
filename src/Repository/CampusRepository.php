@@ -25,9 +25,8 @@ class CampusRepository extends ServiceEntityRepository
 
         $req = $this->createQueryBuilder('campus')
         ->where('campus.active = :active')->setParameter(':active',true)
-        ->orderBy('campus.name','ASC')
-        ->setFirstResult(($page - 1) * 10)
-        ->setMaxResults(10);
+        ->orderBy('campus.name','ASC');
+
 
         return $req->getQuery()->getResult();
     }
