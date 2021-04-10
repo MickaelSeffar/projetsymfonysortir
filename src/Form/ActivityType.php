@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Activity;
 use App\Entity\City;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -17,8 +18,12 @@ class ActivityType extends AbstractType
     {
         $builder
             ->add('name')
-//            ->add('beginDateTime', date('Y-m-d H:i:s'), ['widget' => 'single_text'])
-            ->add('beginDateTime', DateType::class, ['widget' => 'single_text'])
+            ->add('beginDateTime', DateType::class, [
+                'widget' => 'single_text',
+//                'html5' => false,
+//                'attr' => ['class' => 'js-datepicker'
+
+            ])
             ->add('registrationDeadline', DateType::class, ['widget' => 'single_text'])
             ->add('maximumUserNumber')
             ->add('duration')
@@ -26,8 +31,12 @@ class ActivityType extends AbstractType
             ->add('campus')
             // Créer le lieu pour faire fonctionner les relations entre location et activity
             ->add('location', LocationType::class)
-            ->add('publier',SubmitType::class,['label'=>'publier'])
-           //            ->add('city', CityType::class, ['data' => City::class])
+            // Je rajoute une checkbox qui n'est pas liée à mon entité Activity pour choisir le State de mon Activité
+            ->add('publier', CheckboxType::class, [
+                'label'    => 'Voulez vous directement publier cette sortie ?',
+                'mapped'=>false,
+                'required'=>false
+            ]);
         ;
     }
 

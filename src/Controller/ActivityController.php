@@ -31,22 +31,30 @@ class ActivityController extends AbstractController
         // Récupérer id Etat enregistrer=8(En Création) Publier=6(ouvert)
         $creationState= $entityManager->getRepository(State::class)->find('8');
         $publishState=$entityManager->getRepository(State::class)->find('6');
+        // J'initialise le nombre d'utilisateur à zéro
+        $activity->setCurrentUserNumber(0);
         // je créer mon formulaire
         $form = $this->createForm(ActivityType::class, $activity);
-        $activity->setState($creationState);
-        // Mettre le manager
-
+        // Je récupère l'utilisateur qui sera l'organisateur de la sortie
+        $activity->setManager($this->getUser());
         // J'hydrate
-        $form->handleRequest($request);
-        // Si c'est le bouton publier qui est cliqué
-        if ($form->get('publier')->isClicked()) {
-            $activity->setState($publishState);
-        }
+       $form->handleRequest($request);
+        // Si le formulaire est submit, je récupère l'information de la chekbox publier pour définir l'état
+        if($form->isSubmitted()){
+            $publier=$form['publier']->getData();
+           // Selon l'info que je récupère, je met l'état enregister ou création
+          if($publier===true){
+                $activity->setState($publishState);
+                $this->addFlash('success',"L'activité $activity est publiée");
+           }else{
+              $activity->setState($creationState);
+             $this->addFlash('success',"L'activité $activity est enregistrée. Pour la publier, vous devez utilisez le bouton Modifier");
+            }
+       }
         // J'enregistre dans ma base de donnée (POST)
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($activity);
             $entityManager->flush();
-            $this->addFlash('success', 'Nouvelle sortie');
             return $this->redirectToRoute('activity_view');
         }
         // GET

@@ -5,6 +5,14 @@
 {%  block titrePage %}Créer une sortie{% endblock %}
 
 {% block body %}
+{#    <script>#}
+{#        $(document).ready(function() {#}
+{#            // you may need to change this code if you are not using Bootstrap Datepicker#}
+{#            $('.js-datepicker').datepicker({#}
+{#                format: 'yyyy-mm-dd'#}
+{#            });#}
+{#        });#}
+{#    </script>#}
     {{ form_start(formActivity) }}
     <div class="row">
     <div class="col-md-6">
@@ -12,7 +20,7 @@
     {{ form_row(formActivity.beginDateTime, {label: 'Date et heure de la sortie'}) }}
     {{ form_row(formActivity.registrationDeadline, {label: 'Date limite d\'inscription'}) }}
     {{ form_row(formActivity.maximumUserNumber, {label: 'Nombre de places'}) }}
-    {{ form_row(formActivity.duration, {label: 'Durée'}) }}
+    {{ form_row(formActivity.duration, {label: 'Durée (en minutes)'}) }}
     {{ form_row(formActivity.detail, {label: 'Description et infos'}) }}
     </div>
     <div class="col-md-6">
@@ -21,9 +29,13 @@
     </div>
     </div>
     <div class="mt-2">
-   <button type="submit" class="btn btn-secondary">Enregistrer</button>
+{#        {{ form_row(formActivity.publier,{label: 'Publier'  },{'html_attr':{'class' :'btn btn-secondary'}})}}#}
+{#        {{ form_row(formActivity.state) }}#}
+        {{ form_row(formActivity.publier) }}
+{#        {{ form_row(formActivity.enregistrer,{label: 'Enregistrer'  })}}#}
+    <button type="submit" class="btn btn-secondary">Enregistrer</button>
     </div>
-    <a href="{{ path('home_welcome') }}" class="btn btn-secondary">Annuler</a>
+
     {{ form_end(formActivity) }}
 
 {% endblock %}

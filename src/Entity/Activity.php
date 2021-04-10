@@ -253,4 +253,9 @@ class Activity
         $this->registrations = $registrations;
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
+
 }

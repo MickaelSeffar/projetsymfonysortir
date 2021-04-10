@@ -8,8 +8,8 @@
             <div class="w-50 p-3 container border border-dark rounded">
                 <div class="row">
                     <text class="col font-weight-bold">{{ activity.name | capitalize }}</text>
-                    <p class="col text-right">{{ activity.currentUserNumber }}{{ activity.currentUserNumber < 1 ? '0' : '' }}
-                        /{{ activity.maximumUserNumber }}</p>
+                    <p class="col text-right">{{ activity.currentUserNumber }}{#  activity.currentUserNumber < 1 ? '0' : '' #}
+                        / {{ activity.maximumUserNumber }}</p>
                 </div>
                 <div>
                     <div>
@@ -18,7 +18,7 @@
                             <p>Description : {{ activity.detail | capitalize }}</p>
                             <div class="row">
                                 <p class="col">Cloture : {{ activity.registrationDeadline | date("d/m/Y") }}</p>
-                                <p class="col">Etat : {{ activity.state.name }}</p>
+                                <p class="col">Etat : {{ activity.state }}</p>
                             </div>
                         </div>
                         <div>
