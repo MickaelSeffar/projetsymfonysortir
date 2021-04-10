@@ -18,12 +18,7 @@ class ActivityType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('beginDateTime', DateType::class, [
-                'widget' => 'single_text',
-//                'html5' => false,
-//                'attr' => ['class' => 'js-datepicker'
-
-            ])
+            ->add('beginDateTime', DateType::class, ['widget' => 'single_text'])
             ->add('registrationDeadline', DateType::class, ['widget' => 'single_text'])
             ->add('maximumUserNumber')
             ->add('duration')

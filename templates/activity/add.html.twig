@@ -5,14 +5,7 @@
 {%  block titrePage %}Créer une sortie{% endblock %}
 
 {% block body %}
-{#    <script>#}
-{#        $(document).ready(function() {#}
-{#            // you may need to change this code if you are not using Bootstrap Datepicker#}
-{#            $('.js-datepicker').datepicker({#}
-{#                format: 'yyyy-mm-dd'#}
-{#            });#}
-{#        });#}
-{#    </script>#}
+
     {{ form_start(formActivity) }}
     <div class="row">
     <div class="col-md-6">
@@ -29,10 +22,7 @@
     </div>
     </div>
     <div class="mt-2">
-{#        {{ form_row(formActivity.publier,{label: 'Publier'  },{'html_attr':{'class' :'btn btn-secondary'}})}}#}
-{#        {{ form_row(formActivity.state) }}#}
         {{ form_row(formActivity.publier) }}
-{#        {{ form_row(formActivity.enregistrer,{label: 'Enregistrer'  })}}#}
     <button type="submit" class="btn btn-secondary">Enregistrer</button>
     </div>
 

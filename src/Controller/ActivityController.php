@@ -29,8 +29,8 @@ class ActivityController extends AbstractController
     public function add(Request $request, EntityManagerInterface $entityManager) {
         $activity = new Activity();
         // Récupérer id Etat enregistrer=8(En Création) Publier=6(ouvert)
-        $creationState= $entityManager->getRepository(State::class)->find('8');
-        $publishState=$entityManager->getRepository(State::class)->find('6');
+        $creationState= $entityManager->getRepository(State::class)->findOneBy(['name'=>'En cours']);
+        $publishState=$entityManager->getRepository(State::class)->findOneBy(['name'=>'En création']);
         // J'initialise le nombre d'utilisateur à zéro
         $activity->setCurrentUserNumber(0);
         // je créer mon formulaire
