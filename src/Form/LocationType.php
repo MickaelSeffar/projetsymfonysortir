@@ -13,10 +13,14 @@ class LocationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name',null,['label'=>'Nom du lieu'])
+            ->add('name',null,['label'=>'Nom'])
             ->add('road',null,['label'=>'Rue'])
-            ->add('latitude',null,['label'=>'Lattitude'])
-            ->add('longitude')
+            ->add('latitude',null,['label'=>'Lattitude','attr' => array(
+                'placeholder' => 'Ce champs est optionnel',
+            )])
+            ->add('longitude',null,['attr' => array(
+        'placeholder' => 'Ce champs est optionnel',
+    )])
             ->add('city',null,['label'=>'Ville'])
             ->add('active',HiddenType::class,['data'=>true]);
         ;
