@@ -35,7 +35,6 @@ class UserController extends AbstractController
         $form = $this->createForm(EditUserType::class, $userconnecte);
         // J'hydrate le formulaire
         $form->handleRequest($request);
-
         // en post je tombe dans le if
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
