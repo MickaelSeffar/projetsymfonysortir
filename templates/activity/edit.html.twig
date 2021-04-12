@@ -21,13 +21,19 @@
     {{ form_row(editForm.campus, {label: 'Campus'}) }}
         <div class="border p-2 mt-2 rounded border-muted"><h5 class="w-auto">Lieu de la sortie</h5>
             {{ form_widget(editForm.location) }}
-{#    {{ form_row(formActivity.location) }}#}
+
         </div>
     </div>
     </div>
     <div class="mt-2">
         {{ form_row(editForm.publier) }}
-    <button type="submit" class="btn btn-secondary">Enregistrer</button>
+        <div class="text-center">
+            <button type="submit" class="btn btn-secondary">Modifier</button>
+            <a href="#"><button class="btn btn-secondary mx-2">Annuler la sortie</button></a>
+        </div>
+
+
+
     </div>
 
     {{ form_end(editForm) }}

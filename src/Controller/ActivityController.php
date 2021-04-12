@@ -8,6 +8,7 @@ use App\Entity\Activity;
 use App\Entity\Location;
 use App\Entity\State;
 use App\Form\ActivityType;
+use App\Form\CancelType;
 use App\Form\LocationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,8 +31,8 @@ class ActivityController extends AbstractController
     public function add(Request $request, EntityManagerInterface $entityManager) {
         $activity = new Activity();
         // Récupérer id Etat enregistrer=8(En Création) Publier=6(ouvert)
-        $creationState= $entityManager->getRepository(State::class)->findOneBy(['name'=>'En cours']);
-        $publishState=$entityManager->getRepository(State::class)->findOneBy(['name'=>'En création']);
+        $publishState= $entityManager->getRepository(State::class)->findOneBy(['name'=>'En cours']);
+        $creationState=$entityManager->getRepository(State::class)->findOneBy(['name'=>'En création']);
         // J'initialise le nombre d'utilisateur à zéro
         $activity->setCurrentUserNumber(0);
         // je créer mon formulaire
@@ -49,7 +50,7 @@ class ActivityController extends AbstractController
                     $this->addFlash('success',"L'activité $activity est publiée");
                 }else{
                     $activity->setState($creationState);
-                    $this->addFlash('success', "L'activité $activity est enregistrée. Pour la publier, vous devez utilisez le bouton Modifier");
+                    $this->addFlash('success', "L'activité $activity est crée. Elle n'est pas encore publiée");
                 }
 
                 $entityManager->persist($activity);
@@ -72,19 +73,47 @@ class ActivityController extends AbstractController
      * @Route(path="modifier/{id}", name="modify")
      */
     public function modify(EntityManagerInterface $entityManager,Request $request) {
+        // Récupérer id Etat enregistrer=8(En Création) Publier=6(ouvert)
+        $publishState= $entityManager->getRepository(State::class)->findOneBy(['name'=>'En cours']);
+        $creationState=$entityManager->getRepository(State::class)->findOneBy(['name'=>'En création']);
+       // Je recupère mon id et monactivité
         $id = $request->get('id');
-       // Je recupère mes activité
         $activiteModifier=$entityManager->getRepository('App:Activity')->find($id);
         // Je créer un formulaire et j'y met mon activité
         $form = $this->createForm(ActivityType::class,$activiteModifier );
-        // j'affiche le formulaire
+        // J'hydrate le formulaire
+        $form->handleRequest($request);
+        // En post
+        $publier=$form['publier']->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Selon l'info que je récupère, je met l'état enregister ou création
+            if($publier===true){
+                $activiteModifier->setState($publishState);
+                $this->addFlash('success',"L'activité $activiteModifier est modifiée et publiée");
+            }else{
+                $activiteModifier->setState($creationState);
+                $this->addFlash('success', "L'activité $activiteModifier est modifié. Pour la publier, vous devez utilisez le bouton Modifier");
+            }
+            $entityManager->persist($activiteModifier);
+            $entityManager->flush();
+            return $this->redirectToRoute('activity_view');
+        }
+        // j'affiche le formulaire en get
         return $this->render('activity/edit.html.twig',['editForm'=>$form->createView()]);
     }
     /**
      * @Route(path="annuler/{id}", name="cancel")
      */
-    public function cancel() {
-
+    public function cancel(Request $request,EntityManagerInterface $entityManager) {
+        // Je recupère mon id et monactivité
+        $id = $request->get('id');
+        $activiteSupprimer=$entityManager->getRepository('App:Activity')->find($id);
+        // Je créer un formulaire et j'y met mon activité
+        $form = $this->createForm(CancelType::class,$activiteSupprimer );
+        // J'hydrate le formulaire
+        $form->handleRequest($request);
+        // j'affiche le formulaire en get
+        return $this->render('activity/cancel.hml.twig',['cancelFormActivity'=>$form->createView()]);
     }
 
     /**

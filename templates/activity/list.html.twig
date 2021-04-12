@@ -44,9 +44,11 @@
                     {% endif %}
 
                     {# ****** MODIFIER ****** #}
+                    {% if activity.state.name == 'En création' %}
                     {% if app.user.administrator == 'true' or activity.manager.username == app.user.username %}
                         <a href="{{ url('activity_modify', {"id": activity.id}) }}"
                            class="btn btn-sm btn-outline-secondary">Modifier</a>
+                    {% endif %}
                     {% endif %}
                     {# ****** SUPPRIMER ****** #}
                     {% if app.user.administrator == 'true' or activity.manager.username == app.user.username %}
