@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ActivityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\PersistentCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -22,11 +23,13 @@ class Activity
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank(message="pas balcn")
      */
     private $name;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\GreaterThan("today", message="La date de la sortie doit être supérieur à la date du jour")
      */
     private $beginDateTime;
 

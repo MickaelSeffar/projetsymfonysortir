@@ -18,8 +18,14 @@ class ActivityType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('beginDateTime', DateType::class, ['widget' => 'single_text'])
-            ->add('registrationDeadline', DateType::class, ['widget' => 'single_text'])
+            ->add('beginDateTime', DateTimeType::class, [
+                'date_widget' => 'single_text',
+                'time_widget' => 'single_text',
+                ])
+            ->add('registrationDeadline', DateTimeType::class, [
+                'date_widget' => 'single_text',
+                'time_widget' => 'single_text',
+            ])
             ->add('maximumUserNumber')
             ->add('duration')
             ->add('detail')
@@ -39,6 +45,7 @@ class ActivityType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Activity::class,
+            'attr'=> ['novalidate'=>'novalidate']
         ]);
     }
 }
