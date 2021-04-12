@@ -36,6 +36,8 @@ class RegisterController extends AbstractController
             // *** Note pour MICKAEL : Tu avais bien raison, la ligne ci dessous récupère bel et bien le user courant !!!! ***
             // $userconnecte = $this->getUser();
 
+            $activity->setCurrentUserNumber(count($activity->getRegistrations()));
+
             // *** Création d'une ligne Register, remplissage de celle-ci ***
             $register = new Register();
             $register->setUser($user);

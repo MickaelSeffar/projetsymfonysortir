@@ -36,11 +36,11 @@
                            class="btn btn-sm btn-outline-secondary">S'inscrire</a>
                     {% endif %}
                     {# ****** SE DESISTER ****** #}
-                    {{ dump(activity.registrations.toArray) }}
-                    {% if activity.registrations.contains(app.user) %}
+{#                    {{ dump(activity.registrations.toArray) }}#}
+{#                    {% if app.user in activity.registrations.toArray %}#}
                         <a href="{{ url('activity_detail', {"id": activity.id}) }}"
                            class="btn btn-sm btn-outline-secondary">Se désister</a>
-                    {% endif %}
+{#                    {% endif %}#}
                     {# ****** MODIFIER ****** #}
                     {% if app.user.administrator == 'true' or activity.manager.username == app.user.username %}
                         <a href="{{ url('activity_modify', {"id": activity.id}) }}"
