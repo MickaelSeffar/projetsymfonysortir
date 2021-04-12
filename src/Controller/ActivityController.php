@@ -65,8 +65,9 @@ class ActivityController extends AbstractController
      */
     public function display(EntityManagerInterface $entityManager) {
         $activities = $entityManager->getRepository('App:Activity')->findAll();
+        $registrations = $entityManager->getRepository('App:Register')->findAll();
 
-        return $this->render('activity/list.html.twig', ['activities' => $activities]);
+        return $this->render('activity/list.html.twig', ['activities' => $activities, 'registrations' => $registrations]);
     }
     /**
      * @Route(path="modifier/{id}", name="modify")

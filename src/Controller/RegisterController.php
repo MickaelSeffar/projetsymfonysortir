@@ -28,36 +28,31 @@ class RegisterController extends AbstractController
         // *** Récuperer le User connecté en DB ***
         $user = $entityManager->getRepository('App:User')->find($this->getUser());
 
-        // *** Incrémenter le nombre de participants ***
-        $activity->setCurrentUserNumber($activity->getCurrentUserNumber() + 1);
+//        $registrationsNumber = count($activity->getRegistrations());
+//        $registrationsMax = $activity->getMaximumUserNumber();
 
-        // *** Note pour MICKAEL : Tu avais bien raison, la ligne ci dessous récupère bel et bien le user courant !!!! ***
-       // $userconnecte = $this->getUser();
+        if (count($activity->getRegistrations()) < $activity->getMaximumUserNumber()) {
 
-        // *** Création d'une ligne Register, remplissage de celle-ci ***
-        $register = new Register();
-        $register->setUser($user);
-        $register->setActivity($activity);
-        $register->setRegisterDate(new \DateTime());
-        $register->setActive(true);
+            // *** Note pour MICKAEL : Tu avais bien raison, la ligne ci dessous récupère bel et bien le user courant !!!! ***
+            // $userconnecte = $this->getUser();
 
-        // *** Envoi de l'objet Register en DB, sauvegarde du changement de l'activité en DB ***
-        $entityManager->persist($activity);
-        $entityManager->persist($register);
+            // *** Création d'une ligne Register, remplissage de celle-ci ***
+            $register = new Register();
+            $register->setUser($user);
+            $register->setActivity($activity);
+            $register->setRegisterDate(new \DateTime());
+            $register->setActive(true);
 
-        $entityManager->flush();
+            // *** Envoi de l'objet Register en DB, sauvegarde du changement de l'activité en DB ***
+            $entityManager->persist($activity);
+            $entityManager->persist($register);
 
-        // *** Renvoi sur le détail de l'activité ***
-        return $this->redirectToRoute("activity_detail", ['id' => $activity->getId()]);
+            $entityManager->flush();
 
-        //récupérer le nombre d'inscrit
-//        $nbinscrit = $activity->getCurrentUserNumber();
-//         //Récupérer le nombre maximum d'utilisateur
-//         $maxinscrit = $activity->getMaximumUserNumber();
-//
-//         if ($nbinscrit<$maxinscrit){
-//
-//         }
+            // *** Renvoi sur le détail de l'activité ***
+            return $this->redirectToRoute("activity_detail", ['id' => $activity->getId()]);
+        }
+
 
 
 
