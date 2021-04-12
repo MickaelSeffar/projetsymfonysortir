@@ -102,6 +102,11 @@ class User implements UserInterface
      */
     private $email;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Register", mappedBy="user")
+     */
+    private $registrations;
+
     public function __construct()
     {
         $this->ActivityManager = new ArrayCollection();
@@ -308,4 +313,21 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getRegistrations()
+    {
+        return $this->registrations;
+    }
+
+    /**
+     * @param mixed $registrations
+     */
+    public function setRegistrations($registrations): void
+    {
+        $this->registrations = $registrations;
+    }
+
 }

@@ -18,12 +18,12 @@ class Register
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class)
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="registrations")
      */
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Activity::class, inversedBy="registrations")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Activity", inversedBy="registrations")
      */
     private $activity;
 

@@ -8,7 +8,7 @@
             <div class="w-50 p-3 container border border-dark rounded">
                 <div class="row">
                     <text class="col font-weight-bold">{{ activity.name | capitalize }}</text>
-                    <p class="col text-right">{{ activity.currentUserNumber }}{#  activity.currentUserNumber < 1 ? '0' : '' #}
+                    <p class="col text-right">{{ activity.currentUserNumber }}{# activity.currentUserNumber < 1 ? '0' : '' #}
                         / {{ activity.maximumUserNumber }}</p>
                 </div>
                 <div>
@@ -27,19 +27,32 @@
                     </div>
                 </div>
                 <div class="btn-group">
+                    {# ****** AFFICHER ****** #}
                     <a href="{{ url('activity_detail', {"id": activity.id}) }}"
                        class="btn btn-sm btn-outline-secondary">Afficher</a>
-                    <a href="{{ url('register_activityRegistration',{"activityId": activity.id},{"userId": app.user.id} ) }}"
-                       class="btn btn-sm btn-outline-secondary">S'inscrire</a>
-                    <a href="{{ url('activity_detail', {"id": activity.id}) }}"
-                       class="btn btn-sm btn-outline-secondary">Se désister</a>
-                    <a href="{{ url('activity_modify', {"id": activity.id}) }}"
-                       class="btn btn-sm btn-outline-secondary">Modifier</a>
-                    <a href="{{ url('activity_cancel', {"id": activity.id}) }}"
-                       class="btn btn-sm btn-outline-secondary">Supprimer</a>
+                    {# ****** S'INSCRIRE ****** #}
+                    {% if activity.state.name == 'Ouvert' and activity.currentUserNumber < activity.maximumUserNumber %}
+                        <a href="{{ url('register_activityRegistration', {"activityId": activity.id}) }}"
+                           class="btn btn-sm btn-outline-secondary">S'inscrire</a>
+                    {% endif %}
+                    {# ****** SE DESISTER ****** #}
+                    {{ dump(activity.registrations.toArray) }}
+                    {% if activity.registrations.contains(app.user) %}
+                        <a href="{{ url('activity_detail', {"id": activity.id}) }}"
+                           class="btn btn-sm btn-outline-secondary">Se désister</a>
+                    {% endif %}
+                    {# ****** MODIFIER ****** #}
+                    {% if app.user.administrator == 'true' or activity.manager.username == app.user.username %}
+                        <a href="{{ url('activity_modify', {"id": activity.id}) }}"
+                           class="btn btn-sm btn-outline-secondary">Modifier</a>
+                    {% endif %}
+                    {# ****** SUPPRIMER ****** #}
+                    {% if app.user.administrator == 'true' or activity.manager.username == app.user.username %}
+                        <a href="{{ url('activity_cancel', {"id": activity.id}) }}"
+                           class="btn btn-sm btn-outline-secondary">Supprimer</a>
+                    {% endif %}
                 </div>
             </div>
         {% endfor %}
     </div>
 {% endblock %}
-
