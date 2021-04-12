@@ -58,4 +58,10 @@ class RegisterRepository extends ServiceEntityRepository
 
         return $req->getQuery()->getResult();
     }
+
+    public function getRegistration($id) {
+        $req = $this->createQueryBuilder('register')
+            ->select('register')
+            ->where('register.activity = :id')->setParameter(':id', $id);
+    }
 }

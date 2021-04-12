@@ -31,16 +31,18 @@
                     <a href="{{ url('activity_detail', {"id": activity.id}) }}"
                        class="btn btn-sm btn-outline-secondary">Afficher</a>
                     {# ****** S'INSCRIRE ****** #}
-                    {% if activity.state.name == 'Ouvert' and activity.currentUserNumber < activity.maximumUserNumber %}
+                    {% if activity.state.name == 'Ouvert' and activity.currentUserNumber < activity.maximumUserNumber and activity.isSubscribed(app.user) is same as(false) %}
                         <a href="{{ url('register_activityRegistration', {"activityId": activity.id}) }}"
                            class="btn btn-sm btn-outline-secondary">S'inscrire</a>
                     {% endif %}
+
                     {# ****** SE DESISTER ****** #}
 {#                    {{ dump(activity.registrations.toArray) }}#}
-{#                    {% if app.user in activity.registrations.toArray %}#}
+                    {% if activity.isSubscribed(app.user) %}
                         <a href="{{ url('activity_detail', {"id": activity.id}) }}"
                            class="btn btn-sm btn-outline-secondary">Se désister</a>
-{#                    {% endif %}#}
+                    {% endif %}
+
                     {# ****** MODIFIER ****** #}
                     {% if app.user.administrator == 'true' or activity.manager.username == app.user.username %}
                         <a href="{{ url('activity_modify', {"id": activity.id}) }}"

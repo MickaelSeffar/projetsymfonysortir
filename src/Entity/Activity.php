@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ActivityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\PersistentCollection;
 use Doctrine\Common\Collections\Collection;
@@ -253,9 +254,9 @@ class Activity
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getRegistrations(): ArrayCollection
+    public function getRegistrations(): Collection
     {
         return $this->registrations;
     }
@@ -271,6 +272,22 @@ class Activity
     public function __toString()
     {
         return $this->name;
+    }
+
+    /**
+     * Teste si un User est inscrit à cette sortie
+     *
+     * @param UserInterface $user
+     * @return bool
+     */
+    public function isSubscribed(UserInterface $user): bool
+    {
+        foreach($this->getRegistrations() as $sub){
+            if ($sub->getUser() === $user){
+                return true;
+            }
+        }
+        return false;
     }
 
 }

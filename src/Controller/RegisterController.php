@@ -59,4 +59,15 @@ class RegisterController extends AbstractController
 
 
     }
+
+    public function unsubscribe(EntityManagerInterface $entityManager, Request $request, $activityId) {
+        $activity = $entityManager->getRepository('App:Activity')->find($activityId);
+        $user = $entityManager->getRepository('App:User')->find($this->getUser());
+        $registrations = $entityManager->getRepository('App:Register')->getRegistration($activityId);
+
+        $activity->setCurrentUserNumber(count($activity->getRegistrations()));
+
+
+
+    }
 }
