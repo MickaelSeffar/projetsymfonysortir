@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier une sortie{% endblock %}
+
+{%  block titrePage %}Modifier une sortie{% endblock %}
+
+{% block body %}
+
+    {{ form_start(editForm) }}
+    <div class="row">
+    <div class="col-md-6">
+    {{ form_row(editForm.name, {label: 'Nom'}) }}
+    {{ form_row(editForm.beginDateTime.date, {label: 'Date et heure du début de la sortie'}) }}
+        {{ form_widget(editForm.beginDateTime.time) }}
+        {{ form_row(editForm.registrationDeadline, {label: 'Date limite d\'inscription'}) }}
+    {{ form_row(editForm.maximumUserNumber, {label: 'Nombre de places'}) }}
+    {{ form_row(editForm.duration, {label: 'Durée (en minutes)'}) }}
+    {{ form_row(editForm.detail, {label: 'Description et infos'}) }}
+    </div>
+    <div class="col-md-6">
+    {{ form_row(editForm.campus, {label: 'Campus'}) }}
+        <div class="border p-2 mt-2 rounded border-muted"><h5 class="w-auto">Lieu de la sortie</h5>
+            {{ form_widget(editForm.location) }}
+{#    {{ form_row(formActivity.location) }}#}
+        </div>
+    </div>
+    </div>
+    <div class="mt-2">
+        {{ form_row(editForm.publier) }}
+    <button type="submit" class="btn btn-secondary">Enregistrer</button>
+    </div>
+
+    {{ form_end(editForm) }}
+
+{% endblock %}

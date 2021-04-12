@@ -10,7 +10,8 @@
     <div class="row">
     <div class="col-md-6">
     {{ form_row(formActivity.name, {label: 'Nom'}) }}
-    {{ form_row(formActivity.beginDateTime.date, {label: 'Date et heure du début de la sortie'}) }}
+    {{ form_row(formActivity.beginDateTime,{label: 'Date et heure de  la sortie'}) }}
+        {{ form_widget(formActivity.beginDateTime.date ) }}
         {{ form_widget(formActivity.beginDateTime.time) }}
         {{ form_row(formActivity.registrationDeadline, {label: 'Date limite d\'inscription'}) }}
     {{ form_row(formActivity.maximumUserNumber, {label: 'Nombre de places'}) }}
@@ -21,7 +22,6 @@
     {{ form_row(formActivity.campus, {label: 'Campus'}) }}
         <div class="border p-2 mt-2 rounded border-muted"><h5 class="w-auto">Lieu de la sortie</h5>
             {{ form_widget(formActivity.location) }}
-{#    {{ form_row(formActivity.location) }}#}
         </div>
     </div>
     </div>

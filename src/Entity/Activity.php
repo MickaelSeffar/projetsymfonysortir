@@ -23,38 +23,47 @@ class Activity
 
     /**
      * @ORM\Column(type="string", length=50)
-     * @Assert\NotBlank(message="pas balcn")
+     * @Assert\NotBlank(message="Ce champs est obligatoire")
      */
     private $name;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\DateTime()
      * @Assert\GreaterThan("today", message="La date de la sortie doit être supérieur à la date du jour")
+     * @Assert\GreaterThan(propertyPath="registrationDeadLine",message="La date sortie doit être après la date de limite d'inscritpion")
      */
     private $beginDateTime;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\NotBlank(message="Ce champs est obligatoire")
      */
     private $duration;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\NotBlank(message="Ce champs est obligatoire")
+     *  @Assert\DateTime()
+     * @Assert\GreaterThan("today", message="La date de limite d'inscription doit être supérieur à la date du jour")
      */
     private $registrationDeadline;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank(message="Ce champs est obligatoire")
      */
     private $maximumUserNumber;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     *
      */
     private $currentUserNumber;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     *  @Assert\NotBlank(message="Ce champs est obligatoire")
      */
     private $detail;
 
@@ -70,6 +79,7 @@ class Activity
 
     /**
      * @ORM\ManyToOne(targetEntity=Campus::class)
+     * @Assert\NotBlank(message="Ce champs est obligatoire")
      */
     private $campus;
 

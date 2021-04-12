@@ -40,18 +40,6 @@ class ActivityController extends AbstractController
         $activity->setManager($this->getUser());
         // J'hydrate
        $form->handleRequest($request);
-        // Si le formulaire est submit, je récupère l'information de la chekbox publier pour définir l'état
-//        if($form->isSubmitted()){
-//            $publier=$form['publier']->getData();
-//           // Selon l'info que je récupère, je met l'état enregister ou création
-//          if($publier===true){
-//                $activity->setState($publishState);
-//                $this->addFlash('success',"L'activité $activity est publiée");
-//           }else{
-//              $activity->setState($creationState);
-//             $this->addFlash('success',"L'activité $activity est enregistrée. Pour la publier, vous devez utilisez le bouton Modifier");
-//            }
-       //}
         // J'enregistre dans ma base de donnée (POST)
         if ($form->isSubmitted() && $form->isValid()) {
                $publier=$form['publier']->getData();
@@ -83,10 +71,14 @@ class ActivityController extends AbstractController
     /**
      * @Route(path="modifier/{id}", name="modify")
      */
-    public function modify(EntityManagerInterface $entityManager) {
-        $activiteModifier=$entityManager->getRepository('App:Activity')->find(id);
+    public function modify(EntityManagerInterface $entityManager,Request $request) {
+        $id = $request->get('id');
+       // Je recupère mes activité
+        $activiteModifier=$entityManager->getRepository('App:Activity')->find($id);
+        // Je créer un formulaire et j'y met mon activité
         $form = $this->createForm(ActivityType::class,$activiteModifier );
-
+        // j'affiche le formulaire
+        return $this->render('activity/edit.html.twig',['editForm'=>$form->createView()]);
     }
     /**
      * @Route(path="annuler/{id}", name="cancel")

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\LocationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=LocationRepository::class)
@@ -19,11 +20,13 @@ class Location
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank(message="Ce champs est obligatoire")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message="Ce champs est obligatoire")
      */
     private $road;
 
@@ -44,6 +47,7 @@ class Location
 
     /**
      * @ORM\Column(type="boolean")
+     * @Assert\NotBlank(message="Ce champs est obligatoire")
      */
     private $active;
 
