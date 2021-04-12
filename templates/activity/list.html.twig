@@ -43,6 +43,12 @@
                            class="btn btn-sm btn-outline-secondary">Se désister</a>
                     {% endif %}
 
+                    {# ****** Publier ****** #}
+                    {% if activity.state.name == 'En création' %}
+                        <a href="{{ url('activity_publish', {"id": activity.id}) }}"
+                           class="btn btn-sm btn-outline-secondary">Publier</a>
+                    {% endif %}
+
                     {# ****** MODIFIER ****** #}
                     {% if activity.state.name == 'En création' %}
                     {% if app.user.administrator == 'true' or activity.manager.username == app.user.username %}
@@ -51,9 +57,11 @@
                     {% endif %}
                     {% endif %}
                     {# ****** SUPPRIMER ****** #}
+                    {% if activity.state.name == 'En création' or activity.state.name == 'Ouvert'%}
                     {% if app.user.administrator == 'true' or activity.manager.username == app.user.username %}
                         <a href="{{ url('activity_cancel', {"id": activity.id}) }}"
                            class="btn btn-sm btn-outline-secondary">Supprimer</a>
+                    {% endif %}
                     {% endif %}
                 </div>
             </div>

@@ -31,7 +31,7 @@ class ActivityController extends AbstractController
     public function add(Request $request, EntityManagerInterface $entityManager) {
         $activity = new Activity();
         // Récupérer id Etat enregistrer=8(En Création) Publier=6(ouvert)
-        $publishState= $entityManager->getRepository(State::class)->findOneBy(['name'=>'En cours']);
+        $publishState= $entityManager->getRepository(State::class)->findOneBy(['name'=>'Ouvert']);
         $creationState=$entityManager->getRepository(State::class)->findOneBy(['name'=>'En création']);
         // J'initialise le nombre d'utilisateur à zéro
         $activity->setCurrentUserNumber(0);
@@ -74,7 +74,7 @@ class ActivityController extends AbstractController
      */
     public function modify(EntityManagerInterface $entityManager,Request $request) {
         // Récupérer id Etat enregistrer=8(En Création) Publier=6(ouvert)
-        $publishState= $entityManager->getRepository(State::class)->findOneBy(['name'=>'En cours']);
+        $publishState= $entityManager->getRepository(State::class)->findOneBy(['name'=>'Ouvert']);
         $creationState=$entityManager->getRepository(State::class)->findOneBy(['name'=>'En création']);
        // Je recupère mon id et monactivité
         $id = $request->get('id');
@@ -99,12 +99,17 @@ class ActivityController extends AbstractController
             return $this->redirectToRoute('activity_view');
         }
         // j'affiche le formulaire en get
-        return $this->render('activity/edit.html.twig',['editForm'=>$form->createView()]);
+        return $this->render('activity/edit.html.twig',[
+            'editForm'=>$form->createView(),
+            'id'=>$id
+        ]);
     }
     /**
      * @Route(path="annuler/{id}", name="cancel")
      */
     public function cancel(Request $request,EntityManagerInterface $entityManager) {
+        // Récupérer id Etat annuler
+        $cancelState= $entityManager->getRepository(State::class)->findOneBy(['name'=>'Fermé']);
         // Je recupère mon id et monactivité
         $id = $request->get('id');
         $activiteSupprimer=$entityManager->getRepository('App:Activity')->find($id);
@@ -112,6 +117,20 @@ class ActivityController extends AbstractController
         $form = $this->createForm(CancelType::class,$activiteSupprimer );
         // J'hydrate le formulaire
         $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $reason=$form['cancellationReason']->getData();
+            if($reason!=null) {
+                $activiteSupprimer->setState($cancelState);
+                $entityManager->persist($activiteSupprimer);
+                $entityManager->flush();
+                $this->addFlash('success', "L'activité $activiteSupprimer est supprimée");
+                return $this->redirectToRoute('activity_view');
+            }else{
+                $this->addFlash('error', "Merci de préciser le motif d'annulation");
+                return $this->render('activity/cancel.hml.twig',['cancelFormActivity'=>$form->createView()]);
+            }
+
+        }
         // j'affiche le formulaire en get
         return $this->render('activity/cancel.hml.twig',['cancelFormActivity'=>$form->createView()]);
     }
@@ -126,4 +145,21 @@ class ActivityController extends AbstractController
 
         return $this->render('activity/detail.html.twig', ['activity' => $activity, 'users' => $users]);
     }
+    /**
+     * @Route(path="publier/{id}", name="publish")
+     */
+    public function publish(Request $request, EntityManagerInterface $entityManager) {
+        // Je récupère l'activité à publier
+        $id = $request->get('id');
+        $activity = $entityManager->getRepository('App:Activity')->find($id);
+        // Récupérer id Etat annuler
+        $publishState= $entityManager->getRepository(State::class)->findOneBy(['name'=>'Ouvert']);
+        // Je change l'état de mon activité
+        $activity->setState($publishState);
+        $entityManager->persist($activity);
+        $entityManager->flush();
+        $this->addFlash('success', "L'activité $activity est publiée");
+        return $this->redirectToRoute('activity_view');
+    }
+
 }
