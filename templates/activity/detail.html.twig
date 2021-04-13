@@ -40,6 +40,7 @@
     <div>
         <a href="{{ url('home_welcome') }}"
            class="btn btn-sm btn-outline-secondary">Retour</a>
+        {% if activity.isManager(app.user) is same as(false)%}
         {% if activity.state.name == 'Ouvert' and activity.currentUserNumber < activity.maximumUserNumber and activity.isSubscribed(app.user) is same as(false) %}
             <a href="{{ url('register_activityRegistration', {"activityId": activity.id}) }}"
                class="btn btn-sm btn-outline-secondary">S'inscrire</a>
@@ -47,6 +48,7 @@
         {% if activity.isSubscribed(app.user) %}
             <a href="{{ url('register_unsubscribe', {"activityId": activity.id}) }}"
                class="btn btn-sm btn-outline-secondary">Se désister</a>
+        {% endif %}
         {% endif %}
     </div>
 {% endblock %}

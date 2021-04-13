@@ -296,6 +296,14 @@ class Activity
         return false;
     }
 
+    public function isManager(UserInterface $user): bool
+    {
+        if ($this->getManager() === $user) {
+            return true;
+        }
+        return false;
+    }
+
     public function getActive(): ?bool
     {
         return $this->active;

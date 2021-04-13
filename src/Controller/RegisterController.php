@@ -37,7 +37,7 @@ class RegisterController extends AbstractController
             // *** Note pour MICKAEL : Tu avais bien raison, la ligne ci dessous récupère bel et bien le user courant !!!! ***
             // $userconnecte = $this->getUser();
 
-            $activity->setCurrentUserNumber($nbOfSubscribed);
+            $activity->setCurrentUserNumber($activity->getCurrentUserNumber() + 1);
 
             // *** Création d'une ligne Register, remplissage de celle-ci ***
             $register = new Register();
@@ -80,12 +80,12 @@ class RegisterController extends AbstractController
         $registration = $entityManager->getRepository('App:Register')->getRegistrationUnsubscribed($activityId, $user->getId());
 
 
-        $activity->setCurrentUserNumber(count($activity->getRegistrations()));
+        $activity->setCurrentUserNumber($activity->getCurrentUserNumber() - 1);
 
         // Rendre inactive l'inscription
         $registration->setActive(false);
 
-        if ($activity->getCurrentUserNumber() == $activity->getMaximumUserNumber()) {
+        if ($activity->getCurrentUserNumber() + 1  == $activity->getMaximumUserNumber()) {
             $openState= $entityManager->getRepository(State::class)->findOneBy(['name'=>'Ouvert']);
             $activity->setState($openState);
         }

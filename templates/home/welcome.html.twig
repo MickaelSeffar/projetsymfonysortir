@@ -48,6 +48,7 @@
      {# ****** AFFICHER ****** #}
      <a href="{{ url('activity_detail', {"id": activity.id}) }}"
         class="btn btn-sm btn-outline-secondary">Afficher</a>
+     {% if activity.isManager(app.user) is same as(false)%}
      {# ****** S'INSCRIRE ****** #}
      {% if activity.state.name == 'Ouvert' and activity.currentUserNumber < activity.maximumUserNumber and activity.isSubscribed(app.user) is same as(false) %}
       <a href="{{ url('register_activityRegistration', {"activityId": activity.id}) }}"
@@ -55,20 +56,19 @@
      {% endif %}
 
      {# ****** SE DESISTER ****** #}
-     {#                    {{ dump(activity.registrations.toArray) }}#}
      {% if activity.isSubscribed(app.user) %}
       <a href="{{ url('register_unsubscribe', {"activityId": activity.id}) }}"
          class="btn btn-sm btn-outline-secondary">Se désister</a>
      {% endif %}
-
+     {% endif %}
      {# ****** Publier ****** #}
-     {% if activity.state.name == 'En création' %}
+     {% if activity.state.name == 'En création' and activity.isManager(app.user) %}
       <a href="{{ url('activity_publish', {"id": activity.id}) }}"
          class="btn btn-sm btn-outline-secondary">Publier</a>
      {% endif %}
 
      {# ****** MODIFIER ****** #}
-     {% if activity.state.name == 'En création' %}
+     {% if activity.state.name == 'En création' and activity.isManager(app.user) %}
       {% if app.user.administrator == 'true' or activity.manager.username == app.user.username %}
        <a href="{{ url('activity_modify', {"id": activity.id}) }}"
           class="btn btn-sm btn-outline-secondary">Modifier</a>

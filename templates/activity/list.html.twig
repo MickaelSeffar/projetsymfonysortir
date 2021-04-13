@@ -36,6 +36,11 @@
 {#                           class="btn btn-sm btn-outline-secondary">S'inscrire</a>#}
 {#                    {% endif %}#}
 
+                    {# ****** SE DESISTER ****** #}
+{#                    {% if activity.isSubscribed(app.user) %}#}
+{#                        <a href="{{ url('register_unsubscribe', {"activityId": activity.id}) }}"#}
+{#                           class="btn btn-sm btn-outline-secondary">Se désister</a>#}
+{#                    {% endif %}#}
 {#                    #}{# ****** SE DESISTER ****** #}
 {#                    {{ dump(activity.registrations.toArray) }}#}
 {#                    {% if activity.isSubscribed(app.user) %}#}

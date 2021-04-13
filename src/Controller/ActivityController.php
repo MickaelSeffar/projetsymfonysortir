@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Activity;
 use App\Entity\Location;
+use App\Entity\Register;
 use App\Entity\State;
 use App\Form\ActivityType;
 use App\Form\CancelType;
@@ -55,9 +56,20 @@ class ActivityController extends AbstractController
                     $this->addFlash('success', "L'activité $activity est crée. Elle n'est pas encore publiée");
                 }
 
+                $activity->setCurrentUserNumber($activity->getCurrentUserNumber() + 1);
+
+                // *** Inscription par défaut du créateur de l'événement ***
+                $register = new Register();
+                $register->setUser($this->getUser());
+                $register->setActivity($activity);
+                $register->setRegisterDate(new \DateTime());
+                $register->setActive(true);
+
+
                 $entityManager->persist($activity);
+                $entityManager->persist($register);
                 $entityManager->flush();
-                return $this->redirectToRoute('activity_view');
+                return $this->redirectToRoute('home_welcome');
         }
         // GET
         return $this->render('activity/add.html.twig', ['formActivity' => $form->createView()]);
@@ -133,10 +145,11 @@ class ActivityController extends AbstractController
             $reason=$form['cancellationReason']->getData();
             if($reason!=null) {
                 $activiteSupprimer->setState($cancelState);
+                $activiteSupprimer->setActive(false);
                 $entityManager->persist($activiteSupprimer);
                 $entityManager->flush();
                 $this->addFlash('success', "L'activité $activiteSupprimer est supprimée");
-                return $this->redirectToRoute('activity_view');
+                return $this->redirectToRoute('home_welcome');
             }else{
                 $this->addFlash('error', "Merci de préciser le motif d'annulation");
                 return $this->render('activity/cancel.hml.twig',['cancelFormActivity'=>$form->createView()]);
