@@ -40,6 +40,7 @@ class ActivityController extends AbstractController
         $form = $this->createForm(ActivityType::class, $activity);
         // Je récupère l'utilisateur qui sera l'organisateur de la sortie
         $activity->setManager($this->getUser());
+        $activity->setActive(true);
         // J'hydrate
        $form->handleRequest($request);
         // J'enregistre dans ma base de donnée (POST)

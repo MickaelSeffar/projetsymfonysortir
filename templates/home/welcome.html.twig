@@ -1,8 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
- {%  block titrePage %}Accueil{% endblock %}
+{% block title %}Sortir.com{% endblock %}
+ {%  block titrePage %}Filtrer les sorties{% endblock %}
 {% block body %}
- <a href="{{path('activity_add') }}"> <button class="btn btn-success">Créer une sortie</button></a>
+<div class="row">
+ <div class="col-md-4">
+ {{ form_row(searchForm.campus) }}
+ {{ form_row(searchForm.activityName) }}
+ {{ form_row(searchForm.startDate) }}
+ {{ form_row(searchForm.endDate) }}
+ </div>
+ <div class="col-md-4">
+ {{ form_row(searchForm.manager) }}
+ {{ form_row(searchForm.registered) }}
+ {{ form_row(searchForm.registeredActivity) }}
+ {{ form_row(searchForm.finishActivity) }}
+ </div>
+ <div class="col-md-4">
+ <button type="submit" class="btn btn-secondary">Rechercher</button>
+ {{ form_end(searchForm) }}
+ </div>
+</div>
+ <button class="btn btn-secondary"> <a class="text-reset text-decoration-none" href="{{path('activity_add') }}">Créer une sortie</a></button>
 
 {% endblock %}

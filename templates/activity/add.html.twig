@@ -6,13 +6,14 @@
 
 {% block body %}
 
+
     {{ form_start(formActivity) }}
     <div class="row">
     <div class="col-md-6">
     {{ form_row(formActivity.name, {label: 'Nom'}) }}
     {{ form_row(formActivity.beginDateTime,{label: 'Date et heure de  la sortie'}) }}
-        {{ form_widget(formActivity.beginDateTime.date ) }}
-        {{ form_widget(formActivity.beginDateTime.time) }}
+{#        {{ form_widget(formActivity.beginDateTime.date ) }}#}
+{#        {{ form_widget(formActivity.beginDateTime.time) }}#}
         {{ form_row(formActivity.registrationDeadline, {label: 'Date limite d\'inscription'}) }}
     {{ form_row(formActivity.maximumUserNumber, {label: 'Nombre de places'}) }}
     {{ form_row(formActivity.duration, {label: 'Durée (en minutes)'}) }}
@@ -31,5 +32,12 @@
     </div>
 
     {{ form_end(formActivity) }}
+
+    <script>
+        flatpickr(".datepicker", {
+            enableTime: true,
+            locale: "fr",
+            time_24hr: true});
+    </script>
 
 {% endblock %}
