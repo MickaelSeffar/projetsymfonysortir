@@ -99,6 +99,11 @@ class Activity
      */
     private $registrations;
 
+    /**
+     * @ORM\Column(type="boolean",options={"default":true})
+     */
+    private $active;
+
     public function __construct()
     {
         $this->registrations=new ArrayCollection();
@@ -288,6 +293,18 @@ class Activity
             }
         }
         return false;
+    }
+
+    public function getActive(): ?bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
+
+        return $this;
     }
 
 }

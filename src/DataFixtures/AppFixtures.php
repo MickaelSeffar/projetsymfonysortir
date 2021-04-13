@@ -146,6 +146,7 @@ class AppFixtures extends Fixture
             $activity->setCurrentUserNumber($faker->numberBetween(2, 20));
             $activity->setDetail($faker->text(100));
             $activity->setCancellationReason($faker->text(100));
+            $activity->setActive(true);
             $manager->persist($activity);
         }
         $manager->flush();

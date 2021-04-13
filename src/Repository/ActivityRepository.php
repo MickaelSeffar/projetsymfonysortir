@@ -19,6 +19,29 @@ class ActivityRepository extends ServiceEntityRepository
         parent::__construct($registry, Activity::class);
     }
 
+
+    public function getActive(){
+        $req = $this->createQueryBuilder('activity')
+            ->where('activity.active = :active')->setParameter(':active',true);
+        return $req->getQuery()->getResult();
+    }
+
+
+    public function changeState(){
+        $date = new \DateTime('-30 days');
+        $req = $this->createQueryBuilder('activity')
+            ->select('activity')
+            ->where('activity.beginDateTime < :date')
+            ->andWhere('activity.active = true')
+            ->setParameter(':date',$date);
+
+        return $req->getQuery()->getResult();
+
+    }
+
+
+
+
     // /**
     //  * @return Activity[] Returns an array of Activity objects
     //  */
