@@ -32,7 +32,7 @@ class RegisterController extends AbstractController
         $nbOfSubscribed = count($entityManager->getRepository('App:Register')->getRegistration($activityId));
 
 
-        if ($nbOfSubscribed < $activity->getMaximumUserNumber()) {
+        if ($nbOfSubscribed < $activity->getMaximumUserNumber() && $activity->getRegistrationDeadline() > new \DateTime()) {
 
             // *** Note pour MICKAEL : Tu avais bien raison, la ligne ci dessous récupère bel et bien le user courant !!!! ***
             // $userconnecte = $this->getUser();
@@ -78,24 +78,29 @@ class RegisterController extends AbstractController
         $user = $entityManager->getRepository('App:User')->find($this->getUser());
         // *** Va chercher en DB l'inscription ou la valeur est true avec l'ID user, CTRL CLICK sur -> getRegistration ***
         $registration = $entityManager->getRepository('App:Register')->getRegistrationUnsubscribed($activityId, $user->getId());
+        $openState= $entityManager->getRepository(State::class)->findOneBy(['name'=>'Ouvert']);
+        $closedState= $entityManager->getRepository(State::class)->findOneBy(['name'=>'Fermé']);
 
+        if (($activity->getState($openState) || $activity->getState($closedState)) && $activity->getBeginDateTime() > new \DateTime()) {
 
-        $activity->setCurrentUserNumber($activity->getCurrentUserNumber() - 1);
+            $activity->setCurrentUserNumber($activity->getCurrentUserNumber() - 1);
 
-        // Rendre inactive l'inscription
-        $registration->setActive(false);
+            // Rendre inactive l'inscription
+            $registration->setActive(false);
 
-        if ($activity->getCurrentUserNumber() + 1  == $activity->getMaximumUserNumber()) {
-            $openState= $entityManager->getRepository(State::class)->findOneBy(['name'=>'Ouvert']);
-            $activity->setState($openState);
+            if ($activity->getCurrentUserNumber() + 1 == $activity->getMaximumUserNumber()) {
+                $openState = $entityManager->getRepository(State::class)->findOneBy(['name' => 'Ouvert']);
+                $activity->setState($openState);
+            }
+
+            $entityManager->persist($activity);
+            $entityManager->persist($registration);
+
+            $entityManager->flush();
+
+            return $this->redirectToRoute("activity_detail", ['id' => $activity->getId()]);
         }
-
-        $entityManager->persist($activity);
-        $entityManager->persist($registration);
-
-        $entityManager->flush();
-
-        return $this->redirectToRoute("activity_detail", ['id' => $activity->getId()]);
-
+        $this->addFlash('error', 'Désinscription impossible');
+        return $this->redirectToRoute("home_welcome");
     }
 }

@@ -59,10 +59,9 @@ class HomeController extends AbstractController
         $activities = $paginator->paginate($activities,
             $request->query->getInt('page',1),10
         );
-        // Je récupère toutes les lignes de la table register
-        $registrations = $entityManager->getRepository('App:Register')->findAll();
+
         // J'envoie le formulaire dans la page acceuil, avec le formulaire, toutes les activitys et et toutes les lignes registers
-        return $this->render('home/welcome.html.twig',['searchForm'=>$form->createView(),'activities'=>$activities,'registrations' => $registrations]);
+        return $this->render('home/welcome.html.twig',['searchForm'=>$form->createView(),'activities'=>$activities]);
 
     }
 
