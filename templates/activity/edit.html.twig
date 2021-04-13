@@ -10,8 +10,7 @@
     <div class="row">
     <div class="col-md-6">
     {{ form_row(editForm.name, {label: 'Nom'}) }}
-    {{ form_row(editForm.beginDateTime.date, {label: 'Date et heure du début de la sortie'}) }}
-        {{ form_widget(editForm.beginDateTime.time) }}
+    {{ form_row(editForm.beginDateTime, {label: 'Date et heure du début de la sortie'}) }}
         {{ form_row(editForm.registrationDeadline, {label: 'Date limite d\'inscription'}) }}
     {{ form_row(editForm.maximumUserNumber, {label: 'Nombre de places'}) }}
     {{ form_row(editForm.duration, {label: 'Durée (en minutes)'}) }}
@@ -37,5 +36,10 @@
     </div>
 
     {{ form_end(editForm) }}
-
+    <script>
+        flatpickr(".datepicker", {
+            enableTime: true,
+            locale: "fr",
+            time_24hr: true});
+    </script>
 {% endblock %}

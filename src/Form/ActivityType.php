@@ -26,8 +26,9 @@ class ActivityType extends AbstractType
                 'html5' => false
                 ])
             ->add('registrationDeadline', DateTimeType::class, [
-                'date_widget' => 'single_text',
-                'time_widget' => 'single_text',
+                'widget'=> 'single_text',
+                'attr' => ['class' => 'datepicker'],
+                'html5' => false
             ])
             ->add('maximumUserNumber')
             ->add('duration')

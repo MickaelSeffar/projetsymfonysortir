@@ -108,7 +108,7 @@ class ActivityController extends AbstractController
             }
             $entityManager->persist($activiteModifier);
             $entityManager->flush();
-            return $this->redirectToRoute('activity_view');
+            return $this->redirectToRoute('home_welcome');
         }
         // j'affiche le formulaire en get
         return $this->render('activity/edit.html.twig',[
@@ -171,7 +171,7 @@ class ActivityController extends AbstractController
         $entityManager->persist($activity);
         $entityManager->flush();
         $this->addFlash('success', "L'activité $activity est publiée");
-        return $this->redirectToRoute('activity_view');
+        return $this->redirectToRoute('home_welcome');
     }
 
 }
