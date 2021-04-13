@@ -62,26 +62,25 @@ class ActivityController extends AbstractController
         // GET
         return $this->render('activity/add.html.twig', ['formActivity' => $form->createView()]);
     }
-    /**
-     * @Route(path="", name="view")
-     */
-    public function display(EntityManagerInterface $entityManager, PaginatorInterface $paginator, Request $request) {
-        $activityStatus = $entityManager->getRepository('App:Activity')->changeState();
-        foreach ($activityStatus as $activity){
-            $activity->setActive(false);
-        }
-        $entityManager->flush();
-
-
-        $activities = $entityManager->getRepository('App:Activity')->getActive();
-
-        $activities = $paginator->paginate($activities,
-            $request->query->getInt('page',1),10
-        );
-        $registrations = $entityManager->getRepository('App:Register')->findAll();
-
-        return $this->render('activity/list.html.twig', ['activities' => $activities, 'registrations' => $registrations]);
-    }
+//    /**
+//     * @Route(path="", name="view")
+//     */
+//    public function display(EntityManagerInterface $entityManager, PaginatorInterface $paginator, Request $request) {
+//        $activityStatus = $entityManager->getRepository('App:Activity')->changeState();foreach ($activityStatus as $activity){
+//            $activity->setActive(false);
+//       }
+//        $entityManager->flush();
+//
+//
+//        $activities = $entityManager->getRepository('App:Activity')->getActive();
+//
+//        $activities = $paginator->paginate($activities,
+//            $request->query->getInt('page',1),10
+//        );
+//        $registrations = $entityManager->getRepository('App:Register')->findAll();
+//
+//        return $this->render('activity/list.html.twig', ['activities' => $activities, 'registrations' => $registrations]);
+//    }
     /**
      * @Route(path="modifier/{id}", name="modify")
      */

@@ -38,7 +38,7 @@
         </div>
     </div>
     <div>
-        <a href="{{ url('activity_view') }}"
+        <a href="{{ url('home_welcome') }}"
            class="btn btn-sm btn-outline-secondary">Retour</a>
         {% if activity.state.name == 'Ouvert' and activity.currentUserNumber < activity.maximumUserNumber and activity.isSubscribed(app.user) is same as(false) %}
             <a href="{{ url('register_activityRegistration', {"activityId": activity.id}) }}"
