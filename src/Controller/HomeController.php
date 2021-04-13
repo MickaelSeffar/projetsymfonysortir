@@ -3,6 +3,7 @@
 
 namespace App\Controller;
 
+use App\Entity\State;
 use App\Form\ActivityType;
 use App\Form\SearchActivityType;
 use Doctrine\ORM\EntityManager;
@@ -39,11 +40,18 @@ class HomeController extends AbstractController
             'endDateS'=>$form['endDate']->getData(),
         ];
         // Archivage des activités qui se fait maintenant avec la commande php bin/console app:archive-activity
-        //$activityStatus = $entityManager->getRepository('App:Activity')->changeState();
-        //foreach ($activityStatus as $activity){
-        //    $activity->setActive(false);
-        //}
-        //$entityManager->flush();
+      /*  $activityStatus = $entityManager->getRepository('App:Activity')->changeState();
+        foreach ($activityStatus as $activity){
+            $activity->setActive(false);
+        }
+        $entityManager->flush();
+*/
+       $closeActiviy = $entityManager->getRepository('App:Activity')->closeActivity();
+        $closeState= $entityManager->getRepository(State::class)->findOneBy(['name'=>'Fermé']);
+        foreach ($closeActiviy as $activity){
+            $activity->setState($closeState);
+        }
+        $entityManager->flush();
 
         // Je récupère toutes les activités active
         $activities = $entityManager->getRepository('App:Activity')->getActive();

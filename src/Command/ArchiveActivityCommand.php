@@ -36,7 +36,7 @@ class ArchiveActivityCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $activityStatus = $this->entityManager->getRepository('App:Activity')->changeState();
+        $activityStatus = $this->entityManager->getRepository('App:Activity')->archiveActivity();
         foreach ($activityStatus as $activity){
             $activity->setActive(false);
             $io->writeln("Etat changé pour l'activité".$activity->getId());

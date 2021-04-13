@@ -27,17 +27,31 @@ class ActivityRepository extends ServiceEntityRepository
     }
 
 
-    public function changeState(){
-        $date = new \DateTime('-30 days');
+    public function archiveActivity(){
+        $archiveDate = new \DateTime('-30 days');
+
         $req = $this->createQueryBuilder('activity')
             ->select('activity')
-            ->where('activity.beginDateTime < :date')
+            ->where('activity.beginDateTime < :archiveDate')
             ->andWhere('activity.active = true')
-            ->setParameter(':date',$date);
+            ->setParameter(':archiveDate',$archiveDate);
 
         return $req->getQuery()->getResult();
 
     }
+
+    public function closeActivity(){
+        $closeDate = new \DateTime('now');
+
+        $req = $this->createQueryBuilder('activity')
+            ->select('activity')
+            ->where('activity.registrationDeadline < :closeDate' )
+            ->setParameter(':closeDate', $closeDate);
+
+        return $req->getQuery()->getResult();
+
+    }
+
 
 
 
