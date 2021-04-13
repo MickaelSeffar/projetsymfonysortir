@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Activity;
 use App\Entity\Register;
+use App\Entity\State;
 use Doctrine\DBAL\Schema\Visitor\AbstractVisitor;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,7 +37,7 @@ class RegisterController extends AbstractController
             // *** Note pour MICKAEL : Tu avais bien raison, la ligne ci dessous récupère bel et bien le user courant !!!! ***
             // $userconnecte = $this->getUser();
 
-            $activity->setCurrentUserNumber($nbOfSubscribed + 1);
+            $activity->setCurrentUserNumber($nbOfSubscribed);
 
             // *** Création d'une ligne Register, remplissage de celle-ci ***
             $register = new Register();
@@ -44,6 +45,10 @@ class RegisterController extends AbstractController
             $register->setActivity($activity);
             $register->setRegisterDate(new \DateTime());
             $register->setActive(true);
+            if ($activity->getCurrentUserNumber() == $activity->getMaximumUserNumber()) {
+                $closeState= $entityManager->getRepository(State::class)->findOneBy(['name'=>'Fermé']);
+                $activity->setState($closeState);
+            }
 
             // *** Envoi de l'objet Register en DB, sauvegarde du changement de l'activité en DB ***
             $entityManager->persist($activity);
@@ -53,9 +58,11 @@ class RegisterController extends AbstractController
 
 
             // *** Renvoi sur le détail de l'activité ***
+            $this->addFlash('success', 'L\'inscription a bien été enregistrée' );
             return $this->redirectToRoute("activity_detail", ['id' => $activity->getId()]);
         }
 
+        $this->addFlash('error', 'L\'inscription n\'a pas fonctionnée' );
         return $this->redirectToRoute("activity_detail", ['id' => $activity->getId()]);
 
 
@@ -73,11 +80,15 @@ class RegisterController extends AbstractController
         $registration = $entityManager->getRepository('App:Register')->getRegistrationUnsubscribed($activityId, $user->getId());
 
 
-        $activity->setCurrentUserNumber(count($activity->getRegistrations()) - 1);
+        $activity->setCurrentUserNumber(count($activity->getRegistrations()));
 
         // Rendre inactive l'inscription
         $registration->setActive(false);
 
+        if ($activity->getCurrentUserNumber() == $activity->getMaximumUserNumber()) {
+            $openState= $entityManager->getRepository(State::class)->findOneBy(['name'=>'Ouvert']);
+            $activity->setState($openState);
+        }
 
         $entityManager->persist($activity);
         $entityManager->persist($registration);
