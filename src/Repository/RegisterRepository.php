@@ -54,7 +54,8 @@ class RegisterRepository extends ServiceEntityRepository
             ->join('reg.user', 'usr')
             ->select('usr')
             ->addSelect('reg')
-            ->where('act.id = :id')->setParameter(':id', $id);
+            ->where('act.id = :id')->setParameter(':id', $id)
+            ->andWhere('reg.active = true');
 
         return $req->getQuery()->getResult();
     }
@@ -62,6 +63,18 @@ class RegisterRepository extends ServiceEntityRepository
     public function getRegistration($id) {
         $req = $this->createQueryBuilder('register')
             ->select('register')
-            ->where('register.activity = :id')->setParameter(':id', $id);
+            ->where('register.activity = :id')->setParameter(':id', $id)
+            ->andWhere('register.active = true');
+
+        return $req->getQuery()->getResult();
+    }
+    public function getRegistrationUnsubscribed($idActivity, $idUser) {
+        $req = $this->createQueryBuilder('register')
+            ->select('register')
+            ->where('register.activity = :idActivity')->setParameter(':idActivity', $idActivity)
+            ->andWhere('register.active = true')
+            ->andWhere('register.user = :idUser')->setParameter('idUser', $idUser);
+
+        return $req->getQuery()->getOneOrNullResult();
     }
 }

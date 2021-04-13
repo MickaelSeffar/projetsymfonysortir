@@ -39,7 +39,7 @@
                     {# ****** SE DESISTER ****** #}
 {#                    {{ dump(activity.registrations.toArray) }}#}
                     {% if activity.isSubscribed(app.user) %}
-                        <a href="{{ url('activity_detail', {"id": activity.id}) }}"
+                        <a href="{{ url('register_unsubscribe', {"activityId": activity.id}) }}"
                            class="btn btn-sm btn-outline-secondary">Se désister</a>
                     {% endif %}
 

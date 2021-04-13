@@ -27,16 +27,16 @@ class RegisterController extends AbstractController
         $activity = $entityManager->getRepository('App:Activity')->find($activityId);
         // *** Récuperer le User connecté en DB ***
         $user = $entityManager->getRepository('App:User')->find($this->getUser());
+        // *** Va chercher en DB le nombre d'inscription ou la valeur est true, CTRL CLICK sur -> getRegistration ***
+        $nbOfSubscribed = count($entityManager->getRepository('App:Register')->getRegistration($activityId));
 
-//        $registrationsNumber = count($activity->getRegistrations());
-//        $registrationsMax = $activity->getMaximumUserNumber();
 
-        if (count($activity->getRegistrations()) < $activity->getMaximumUserNumber()) {
+        if ($nbOfSubscribed < $activity->getMaximumUserNumber()) {
 
             // *** Note pour MICKAEL : Tu avais bien raison, la ligne ci dessous récupère bel et bien le user courant !!!! ***
             // $userconnecte = $this->getUser();
 
-            $activity->setCurrentUserNumber(count($activity->getRegistrations()));
+            $activity->setCurrentUserNumber($nbOfSubscribed + 1);
 
             // *** Création d'une ligne Register, remplissage de celle-ci ***
             $register = new Register();
@@ -51,23 +51,40 @@ class RegisterController extends AbstractController
 
             $entityManager->flush();
 
+
             // *** Renvoi sur le détail de l'activité ***
             return $this->redirectToRoute("activity_detail", ['id' => $activity->getId()]);
         }
 
-
+        return $this->redirectToRoute("activity_detail", ['id' => $activity->getId()]);
 
 
     }
 
-    public function unsubscribe(EntityManagerInterface $entityManager, Request $request, $activityId) {
+    /**
+     *
+     * @Route(path="desinscription/{activityId}", name="unsubscribe")
+     */
+    public function unsubscribe(EntityManagerInterface $entityManager, Request $request, $activityId)
+    {
         $activity = $entityManager->getRepository('App:Activity')->find($activityId);
         $user = $entityManager->getRepository('App:User')->find($this->getUser());
-        $registrations = $entityManager->getRepository('App:Register')->getRegistration($activityId);
+        // *** Va chercher en DB l'inscription ou la valeur est true avec l'ID user, CTRL CLICK sur -> getRegistration ***
+        $registration = $entityManager->getRepository('App:Register')->getRegistrationUnsubscribed($activityId, $user->getId());
 
-        $activity->setCurrentUserNumber(count($activity->getRegistrations()));
+
+        $activity->setCurrentUserNumber(count($activity->getRegistrations()) - 1);
+
+        // Rendre inactive l'inscription
+        $registration->setActive(false);
 
 
+        $entityManager->persist($activity);
+        $entityManager->persist($registration);
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute("activity_detail", ['id' => $activity->getId()]);
 
     }
 }

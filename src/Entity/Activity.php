@@ -288,7 +288,7 @@ class Activity
     public function isSubscribed(UserInterface $user): bool
     {
         foreach($this->getRegistrations() as $sub){
-            if ($sub->getUser() === $user){
+            if ($sub->getUser() === $user && $sub->getActive()){
                 return true;
             }
         }

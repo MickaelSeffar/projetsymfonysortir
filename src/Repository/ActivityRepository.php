@@ -79,4 +79,12 @@ class ActivityRepository extends ServiceEntityRepository
 
         return $req->getQuery()->getResult();
     }
+
+    public function getRegistrations($id) {
+        $req = $this->createQueryBuilder('activity')
+            ->select('activity.registrations')
+            ->where('activity.registrations = false');
+
+        return $req->getQuery()->getResult();
+    }
 }
