@@ -48,10 +48,10 @@
             <a class="p-2 text-dark" href="{{ path('user_edit') }}">Mon profil</a>
             <a class="p-2 text-dark" href="{{ path('app_logout') }}">Se déconnecter</a>
             {% endif %}
-            {% if(app.user) %}<div>Date du jour : {{ "now"|date("d/m/Y") }}<br>
+            {% if(app.user) %}<div>Date du jour : {{'now'|format_datetime(locale='fr')  }}<br>
                  Participant :{{ app.user.username }}{% endif %}
 
-                </div>
+            </div>
         </nav>
 
     </header>

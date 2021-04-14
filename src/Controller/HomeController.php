@@ -53,13 +53,13 @@ class HomeController extends AbstractController
 
 
         // Passage au status "En cours" des activités arrivant à la date de début
-        $startActivity = $entityManager->getRepository('App:Activity')->startActivity();
-
-        $inProgressState = $entityManager->getRepository(State::class)->findOneBy(['name'=>'En cours']);
-        foreach ($startActivity as $activity){
-            $activity->setState($inProgressState);
-        }
-             $entityManager->flush();
+//        $startActivity = $entityManager->getRepository('App:Activity')->startActivity();
+//
+//        $inProgressState = $entityManager->getRepository(State::class)->findOneBy(['name'=>'En cours']);
+//        foreach ($startActivity as $activity){
+//            $activity->setState($inProgressState);
+//        }
+//             $entityManager->flush();
 
         // Si le formulaire est activé
         if ($form->isSubmitted()) {
@@ -68,6 +68,7 @@ class HomeController extends AbstractController
              'campusS'=>$form['campusName']->getData(),
              'activityNameS'=>$form['activityName']->getData(),
              'managerS'=>$form['managerB']->getData(),
+                'registeredNot'=>$form['registeredActivity']->getData(),
              'registeredS'=>$form['registered']->getData(),
              'finishActivityS'=>$form['finishActivity']->getData(),
              'startDateS'=>$form['startDate']->getData(),

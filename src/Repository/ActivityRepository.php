@@ -44,11 +44,35 @@ class ActivityRepository extends ServiceEntityRepository
             $req->andWhere('a.campus =:campus')
                 ->setParameter(':campus', $infoRecherche['campusS']);
         }
-//        if ($infoRecherche['managerS'] === true) {
-//                //dd($infoRecherche['userConnecte']);
-//                $req->andWhere('a.manager =: user')
-//                    ->setParameter(':user', $infoRecherche['userConnecte']);
-//            }
+        if ($infoRecherche['managerS'] === true) {
+                //dd($infoRecherche['userConnecte']);
+                $req->andWhere('a.manager = :user')
+                    ->setParameter(':user', $infoRecherche['userConnecte']);
+        }
+        $dateJour=new \DateTime();
+        if($infoRecherche['finishActivityS']===true) {
+            $req->andWhere('a.beginDateTime < :date')
+                ->setParameter(':date', $dateJour);
+        }
+        if($infoRecherche['registeredS']===true) {
+            $req->join('a.registrations','r')
+                ->andWhere('r.user =:user')
+                ->setParameter(':user', $infoRecherche['userConnecte']);
+        }
+        if($infoRecherche['registeredNot']===true) {
+            $req->join('a.registrations','r')
+                ->andWhere('r.user <>:user')
+                ->setParameter(':user', $infoRecherche['userConnecte']);
+        }
+//        public function getUserFromRegister($id) {
+//            $req = $this->createQueryBuilder('activity')
+//                ->select('activity.registrations')
+//                ->join('activity.user')
+//                ->where('activity.id = :id')->setParameter(':id', $id);
+//
+//            return $req->getQuery()->getResult();
+//        }
+
 
         return $req->getQuery()->getResult();
     }
@@ -77,31 +101,34 @@ class ActivityRepository extends ServiceEntityRepository
         return $req->getQuery()->getResult();
 
     }
-
-
     public function startActivity(){
+        // Objectif Mettre les activité commencées et pas terminées en statut en cours
+        // Je paramètre ma date du jour et heure du jour
         $startDate = new \DateTime('now');
        // $dureeActivite = new \DateTime('activity.beginDateTime + activity.duration');
-
-
+        // Je recherche toutes les activités dont la date de début est inférieur à la date du jour
+        // et qui sont active
         $req = $this->createQueryBuilder('activity')
             ->select('activity')
             ->where('activity.beginDateTime >= :startDate')
             ->andWhere('activity.active= true')
             ->setParameter(':startDate',$startDate);
-
-
-//Si l'activité est pas finie, je la stock dans un tableau à retourner
-
         $result = $req->getQuery()->getResult();
-        $resultTab = [];
-
+        // Je parcours ces résultat et je regarde si la durée est finie
         foreach ($result as $activity) {
-            $activity;
-            //calculer le dateTime (getDuration + getResutlt
-            //Stocké dans le tableau si il est > now
+            $id=$activity->getId();
+            $duration=$activity->getDuration();
+            $beginTime=$activity->getBeginDateTime();
+           // Je rajoute du temps
+            $endate=$beginTime->modify("+{$duration} minutes");
+            // J'affiche
+            dd($endate, $id);
+            // Après il faudrait le rajouter dans un tableau mais je sais plus comment
         }
-        return $resultTab;
+
+        //return $resultTab;
+        //Si l'activité est pas finie, je la stock dans un tableau à retourner
+
     }
 
 

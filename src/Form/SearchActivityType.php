@@ -56,7 +56,9 @@ class SearchActivityType extends AbstractType
                 'attr' => ['class' => 'datepicker'],
                 'html5' => false,
                 'mapped'=>false,
-                'label'    => "Entre"
+                'label'    => "Entre",
+
+
             ])
             ->add('endDate', DateTimeType::class, [
                 'widget'=> 'single_text',
@@ -64,11 +66,12 @@ class SearchActivityType extends AbstractType
                 'html5' => false,
                 'mapped'=>false,
                 'label'    => "et",
-//                'constraints' => [
-//                    new GreaterThan(['propertyPath'=>'startDate'->getData(),
-//                        'message' => 'Merci d\'entrer votre mot de passe'
-//                    ])
-//                ]
+                'constraints' => [
+                    new GreaterThan(['propertyPath'=> 'parent.all[startDate].data',
+                        'message' => 'Cette date doit être supérieur à la première date'
+                    ])
+                ]
+
         ])
 
         ;
