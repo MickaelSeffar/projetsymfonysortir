@@ -76,6 +76,7 @@ class Activity
 
     /**
      * @ORM\ManyToOne(targetEntity=Location::class, cascade={"persist"})
+     * @Assert\Valid()
      */
     private $location;
 

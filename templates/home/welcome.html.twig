@@ -6,13 +6,13 @@
 <div class="row">
  <div class="col-md-4">
   {{ form_start(searchForm) }}
- {{ form_row(searchForm.campus) }}
+ {{ form_row(searchForm.campusName) }}
  {{ form_row(searchForm.activityName) }}
  {{ form_row(searchForm.startDate) }}
  {{ form_row(searchForm.endDate) }}
  </div>
  <div class="col-md-4">
- {{ form_row(searchForm.manager) }}
+ {{ form_row(searchForm.managerB) }}
  {{ form_row(searchForm.registered) }}
  {{ form_row(searchForm.registeredActivity) }}
  {{ form_row(searchForm.finishActivity) }}
@@ -21,7 +21,7 @@
  <button type="submit" class="btn btn-secondary">Rechercher</button>
  {{ form_end(searchForm) }}
  </div>
- <div><p> Je cherche : {{ test }}</p></div>
+{# <div><p> Je cherche : {{ test }}</p></div>#}
 
 {# Ce qui était dans liste avant#}
  <div>

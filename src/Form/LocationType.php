@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\City;
 use App\Entity\Location;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,7 +23,13 @@ class LocationType extends AbstractType
             ->add('longitude',null,['attr' => array(
         'placeholder' => 'Ce champs est optionnel',
     )])
-            ->add('city',null,['label'=>'Ville'])
+            ->add('city',EntityType::class,[
+                'class'=> City::class,
+                'choice_label'=> 'name',
+                'placeholder' => 'Sélectionner une ville',
+                'label' => 'Ville'
+            ])
+            //->add('city',null,['label'=>'Ville'])
             ->add('active',HiddenType::class,['data'=>true]);
         ;
     }

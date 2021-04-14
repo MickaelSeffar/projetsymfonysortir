@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Activity;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -26,19 +27,28 @@ class ActivityRepository extends ServiceEntityRepository
         return $req->getQuery()->getResult();
     }
     public function search($infoRecherche){
-
-       // Je récupère un bout de nom de l'activité cherchée
         $req = $this->createQueryBuilder('a')
-            ->select('a')
-            ->where('a.active = :active')
-                ->setParameter(':active',true)
-            ->andwhere('a.name LIKE :nom')
-                ->setParameter(':nom','%'.$infoRecherche['activityNameS'].'%')
-            ->andwhere('a.beginDateTime BETWEEN :dateDebut AND :dateFin')
-                ->setParameter('dateDebut',$infoRecherche['startDateS'])
-                ->setParameter('dateFin',$infoRecherche['endDateS'])
-            ->andWhere('a.campus =:campus')
-                ->setParameter(':campus',$infoRecherche['campusS']);
+            ->select('a');
+        $req->where('a.active = :active')
+                ->setParameter(':active',true);
+        if(!empty($infoRecherche['activityNameS'])){
+             $req->andwhere('a.name LIKE :nom')
+             ->setParameter(':nom','%'.$infoRecherche['activityNameS'].'%');
+        }
+        if(!empty($infoRecherche['startDateS'])) {
+            $req->andwhere('a.beginDateTime BETWEEN :dateDebut AND :dateFin')
+                ->setParameter('dateDebut', $infoRecherche['startDateS'])
+                ->setParameter('dateFin', $infoRecherche['endDateS']);
+        }
+        if(!empty( $infoRecherche['campusS'])) {
+            $req->andWhere('a.campus =:campus')
+                ->setParameter(':campus', $infoRecherche['campusS']);
+        }
+//        if ($infoRecherche['managerS'] === true) {
+//                //dd($infoRecherche['userConnecte']);
+//                $req->andWhere('a.manager =: user')
+//                    ->setParameter(':user', $infoRecherche['userConnecte']);
+//            }
 
         return $req->getQuery()->getResult();
     }

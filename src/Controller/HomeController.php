@@ -47,17 +47,20 @@ class HomeController extends AbstractController
             $activity->setState($closeState);
         }
         $entityManager->flush();
+        $userconnecte=$this->getUser();
+
         // Si le formulaire est activé
         if ($form->isSubmitted()) {
          // Je récupère les données du formulaire et je les range dans un joli tableau
             $infoRecherche=[
-             'campusS'=>$form['campus']->getData(),
+             'campusS'=>$form['campusName']->getData(),
              'activityNameS'=>$form['activityName']->getData(),
-             'managerS'=>$form['manager']->getData(),
+             'managerS'=>$form['managerB']->getData(),
              'registeredS'=>$form['registered']->getData(),
              'finishActivityS'=>$form['finishActivity']->getData(),
              'startDateS'=>$form['startDate']->getData(),
              'endDateS'=>$form['endDate']->getData(),
+                'userConnecte'=>$userconnecte,
             ];
             $activityfound= $entityManager->getRepository('App:Activity')->search($infoRecherche);
             // je pagine
@@ -85,7 +88,7 @@ class HomeController extends AbstractController
         );
         $test='rien';
         // J'envoie le formulaire dans la page acceuil, avec le formulaire, toutes les activitys et et toutes les lignes registers
-        return $this->render('home/welcome.html.twig',['searchForm'=>$form->createView(),'activities'=>$activities,'test'=>$test]);
+        return $this->render('home/welcome.html.twig',['searchForm'=>$form->createView(),'activities'=>$activities]);
 
     }
 

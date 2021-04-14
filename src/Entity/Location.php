@@ -42,6 +42,7 @@ class Location
 
     /**
      * @ORM\ManyToOne(targetEntity=City::class)
+     * @Assert\NotBlank(message="Ce champs est obligatoire")
      */
     private $city;
 

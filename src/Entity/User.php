@@ -330,4 +330,10 @@ class User implements UserInterface
         $this->registrations = $registrations;
     }
 
+    public function __toString()
+    {
+       return $this->username;
+    }
+
+
 }

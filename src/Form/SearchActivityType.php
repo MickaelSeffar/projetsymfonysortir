@@ -13,26 +13,25 @@ use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\GreaterThan;
 
 class SearchActivityType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {        $builder
-                ->add('campus',EntityType::class,[
+                ->add('campusName',EntityType::class,[
                     'class'=> Campus::class,
+                    'mapped'=>false,
                     'choice_label'=> 'name',
                     'required' => false,
+                    'label'=> 'Campus'
                 ])
-//            ->add('campus',ChoiceType::class
-//                ,array(
-//                'required'=>false,
-//            ))
             ->add('activityName', SearchType::class,[
                 'label'    => "Le nom de la sortie contient",
                 'mapped'=>false,
                 'required'=>false
             ])
-            ->add('manager', CheckboxType::class, [
+            ->add('managerB', CheckboxType::class, [
                 'label'    => "Sorties dont je suis l'organisateur/trice",
                 'mapped'=>false,
                 'required'=>false
@@ -64,8 +63,14 @@ class SearchActivityType extends AbstractType
                 'attr' => ['class' => 'datepicker'],
                 'html5' => false,
                 'mapped'=>false,
-                'label'    => "et"
-            ])
+                'label'    => "et",
+//                'constraints' => [
+//                    new GreaterThan(['propertyPath'=>'startDate'->getData(),
+//                        'message' => 'Merci d\'entrer votre mot de passe'
+//                    ])
+//                ]
+        ])
+
         ;
     }
 
