@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Activity;
+use App\Entity\Campus;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -16,7 +18,11 @@ class SearchActivityType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {        $builder
-                ->add('campus')
+                ->add('campus',EntityType::class,[
+                    'class'=> Campus::class,
+                    'choice_label'=> 'name',
+                    'required' => false,
+                ])
 //            ->add('campus',ChoiceType::class
 //                ,array(
 //                'required'=>false,

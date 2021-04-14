@@ -26,6 +26,7 @@ class ActivityRepository extends ServiceEntityRepository
         return $req->getQuery()->getResult();
     }
     public function search($infoRecherche){
+
        // Je récupère un bout de nom de l'activité cherchée
         $req = $this->createQueryBuilder('a')
             ->select('a')
@@ -35,7 +36,9 @@ class ActivityRepository extends ServiceEntityRepository
                 ->setParameter(':nom','%'.$infoRecherche['activityNameS'].'%')
             ->andwhere('a.beginDateTime BETWEEN :dateDebut AND :dateFin')
                 ->setParameter('dateDebut',$infoRecherche['startDateS'])
-                ->setParameter('dateFin',$infoRecherche['endDateS']);
+                ->setParameter('dateFin',$infoRecherche['endDateS'])
+            ->andWhere('a.campus =:campus')
+                ->setParameter(':campus',$infoRecherche['campusS']);
 
         return $req->getQuery()->getResult();
     }

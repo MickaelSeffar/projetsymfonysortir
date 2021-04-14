@@ -3,7 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Activity;
+use App\Entity\Campus;
 use App\Entity\City;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -33,7 +35,12 @@ class ActivityType extends AbstractType
             ->add('maximumUserNumber')
             ->add('duration')
             ->add('detail')
-            ->add('campus')
+            //->add('campus')
+            ->add('campus',EntityType::class,[
+                'class'=> Campus::class,
+                'choice_label'=> 'name',
+                'placeholder' => 'Sélectionner un campus'
+            ])
             // Créer le lieu pour faire fonctionner les relations entre location et activity
             ->add('location', LocationType::class)
             // Je rajoute une checkbox qui n'est pas liée à mon entité Activity pour choisir le State de mon Activité

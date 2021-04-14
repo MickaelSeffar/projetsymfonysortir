@@ -68,7 +68,7 @@ class HomeController extends AbstractController
             return $this->render('home/welcome.html.twig',[
                 'searchForm'=>$form->createView(),
                 'activities'=>$activityfound,
-                'test'=>$infoRecherche['activityNameS'] ]);
+                'test'=>$infoRecherche['campusS'] ]);
         }
             // Archivage des activités qui se fait maintenant avec la commande php bin/console app:archive-activity
         //$activityStatus = $entityManager->getRepository('App:Activity')->changeState();
