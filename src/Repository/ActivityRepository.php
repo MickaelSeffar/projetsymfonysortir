@@ -133,6 +133,13 @@ class ActivityRepository extends ServiceEntityRepository
 
 
 
+    public function cancelActivity() {
+        $req = $this->createQueryBuilder('activity')
+            ->select('activity')
+            ->where('activity.state = :active')
+            ->setParameter('activity.s');
+        return $req->getQuery()->getResult();
+    }
 
     // /**
     //  * @return Activity[] Returns an array of Activity objects
