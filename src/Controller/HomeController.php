@@ -33,21 +33,33 @@ class HomeController extends AbstractController
         $form = $this->createForm(SearchActivityType::class,$activityTest );
         // J'hydrate le formulaire
         $form->handleRequest($request);
-       // Archivage des activités qui se fait maintenant avec la commande php bin/console app:archive-activity
-      /*  $activityStatus = $entityManager->getRepository('App:Activity')->changeState();
+
+        // Archivage des activités qui se fait maintenant avec la commande php bin/console app:archive-activity
+        $activityStatus = $entityManager->getRepository('App:Activity')->archiveActivity();
         foreach ($activityStatus as $activity){
             $activity->setActive(false);
         }
         $entityManager->flush();
-*/
+
         // Fermeture des activités
-       $closeActiviy = $entityManager->getRepository('App:Activity')->closeActivity();
+       $closeActivity = $entityManager->getRepository('App:Activity')->closeActivity();
         $closeState= $entityManager->getRepository(State::class)->findOneBy(['name'=>'Fermé']);
-        foreach ($closeActiviy as $activity){
+        foreach ($closeActivity as $activity){
             $activity->setState($closeState);
         }
+
         $entityManager->flush();
         $userconnecte=$this->getUser();
+
+
+        // Passage au status "En cours" des activités arrivant à la date de début
+        $startActivity = $entityManager->getRepository('App:Activity')->startActivity();
+
+        $inProgressState = $entityManager->getRepository(State::class)->findOneBy(['name'=>'En cours']);
+        foreach ($startActivity as $activity){
+            $activity->setState($inProgressState);
+        }
+             $entityManager->flush();
 
         // Si le formulaire est activé
         if ($form->isSubmitted()) {
@@ -73,12 +85,7 @@ class HomeController extends AbstractController
                 'activities'=>$activityfound,
                 'test'=>$infoRecherche['campusS'] ]);
         }
-            // Archivage des activités qui se fait maintenant avec la commande php bin/console app:archive-activity
-        //$activityStatus = $entityManager->getRepository('App:Activity')->changeState();
-        //foreach ($activityStatus as $activity){
-        //    $activity->setActive(false);
-        //}
-        //$entityManager->flush();
+
 
         // Je récupère toutes les activités active
         $activities = $entityManager->getRepository('App:Activity')->getActive();

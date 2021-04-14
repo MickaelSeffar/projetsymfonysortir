@@ -79,6 +79,31 @@ class ActivityRepository extends ServiceEntityRepository
     }
 
 
+    public function startActivity(){
+        $startDate = new \DateTime('now');
+       // $dureeActivite = new \DateTime('activity.beginDateTime + activity.duration');
+
+
+        $req = $this->createQueryBuilder('activity')
+            ->select('activity')
+            ->where('activity.beginDateTime >= :startDate')
+            ->andWhere('activity.active= true')
+            ->setParameter(':startDate',$startDate);
+
+
+//Si l'activité est pas finie, je la stock dans un tableau à retourner
+
+        $result = $req->getQuery()->getResult();
+        $resultTab = [];
+
+        foreach ($result as $activity) {
+            $activity;
+            //calculer le dateTime (getDuration + getResutlt
+            //Stocké dans le tableau si il est > now
+        }
+        return $resultTab;
+    }
+
 
 
 
