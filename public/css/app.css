@@ -14,10 +14,9 @@
 li {
     list-style: none;
 }
-.epaisseur {
-    border-width:5px !important;
-}
-.lien{
-    color:black;
-}
 
+.monLogo{
+    width: 25%;
+    height: 20%;
+    object-fit: cover;
+}

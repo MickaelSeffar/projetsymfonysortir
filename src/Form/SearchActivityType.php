@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Activity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -15,15 +16,19 @@ class SearchActivityType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {        $builder
-            ->add('campus')
+                ->add('campus')
+//            ->add('campus',ChoiceType::class
+//                ,array(
+//                'required'=>false,
+//            ))
             ->add('activityName', SearchType::class,[
                 'label'    => "Le nom de la sortie contient",
-                'mapped'=>true,
+                'mapped'=>false,
                 'required'=>false
             ])
             ->add('manager', CheckboxType::class, [
                 'label'    => "Sorties dont je suis l'organisateur/trice",
-                'mapped'=>true,
+                'mapped'=>false,
                 'required'=>false
             ])
             ->add('registered', CheckboxType::class, [

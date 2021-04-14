@@ -25,7 +25,20 @@ class ActivityRepository extends ServiceEntityRepository
             ->where('activity.active = :active')->setParameter(':active',true);
         return $req->getQuery()->getResult();
     }
+    public function search($infoRecherche){
+       // Je récupère un bout de nom de l'activité cherchée
+        $req = $this->createQueryBuilder('a')
+            ->select('a')
+            ->where('a.active = :active')
+                ->setParameter(':active',true)
+            ->andwhere('a.name LIKE :nom')
+                ->setParameter(':nom','%'.$infoRecherche['activityNameS'].'%')
+            ->andwhere('a.beginDateTime BETWEEN :dateDebut AND :dateFin')
+                ->setParameter('dateDebut',$infoRecherche['startDateS'])
+                ->setParameter('dateFin',$infoRecherche['endDateS']);
 
+        return $req->getQuery()->getResult();
+    }
 
     public function archiveActivity(){
         $archiveDate = new \DateTime('-30 days');

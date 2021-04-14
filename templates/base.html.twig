@@ -19,23 +19,20 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
         <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
         <script src="https://npmcdn.com/flatpickr/dist/l10n/fr.js"></script>
-
-
+{#Favicon#}
+        <link rel="icon" href="{{ asset('img/phare.png')}}"  type="image/png">
 
 
     </head>
     <body>
     <header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-body border-bottom shadow-sm">
         <p class="h5 my-0 me-md-auto fw-normal">{% block name %}{% endblock %}</p>
-
+        {#Logo#}
         <div class="col-12 col-md">
-            <img class="mb-2" src="https://external-preview.redd.it/HbG3Q2o5QT_9UUmAknsRe_GXgQdJRoFgJ6NLTI2oH_A.jpg?auto=webp&s=dbb412a5d5e50dfcc765d3f6249c83e0b051e16d" alt="" width="100" height="90">
+            <img class="monLogo" src="{{ asset('img/logo_small.png') }}" alt="Sortir.com">
         </div>
         <nav class="my-2 my-md-0 me-md-3">
-            <!--   {#% if app.admin %#}
-                <a class="p-2 text-dark" href="#">Villes</a>
-                <a class="p-2 text-dark" href="#">Campus</a>
-            {#% endif %#}-->
+
             {% if (app.user)  %}
                 {% for role in app.user.roles %}
                     {% if(role=="ROLE_ADMIN") %}

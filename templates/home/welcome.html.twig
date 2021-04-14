@@ -5,6 +5,7 @@
 {% block body %}
 <div class="row">
  <div class="col-md-4">
+  {{ form_start(searchForm) }}
  {{ form_row(searchForm.campus) }}
  {{ form_row(searchForm.activityName) }}
  {{ form_row(searchForm.startDate) }}
@@ -20,6 +21,8 @@
  <button type="submit" class="btn btn-secondary">Rechercher</button>
  {{ form_end(searchForm) }}
  </div>
+ <div><p> Je cherche : {{ test }}</p></div>
+
 {# Ce qui était dans liste avant#}
  <div>
   {% for activity in activities %}
