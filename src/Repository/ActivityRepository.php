@@ -30,10 +30,10 @@ class ActivityRepository extends ServiceEntityRepository
         $req = $this->createQueryBuilder('a')
             ->select('a');
         $req->where('a.active = :active')
-                ->setParameter(':active',true);
+            ->setParameter(':active',true);
         if(!empty($infoRecherche['activityNameS'])){
-             $req->andwhere('a.name LIKE :nom')
-             ->setParameter(':nom','%'.$infoRecherche['activityNameS'].'%');
+            $req->andwhere('a.name LIKE :nom')
+                ->setParameter(':nom','%'.$infoRecherche['activityNameS'].'%');
         }
         if(!empty($infoRecherche['startDateS'])) {
             $req->andwhere('a.beginDateTime BETWEEN :dateDebut AND :dateFin')
@@ -45,34 +45,29 @@ class ActivityRepository extends ServiceEntityRepository
                 ->setParameter(':campus', $infoRecherche['campusS']);
         }
         if ($infoRecherche['managerS'] === true) {
-                //dd($infoRecherche['userConnecte']);
-                $req->andWhere('a.manager = :user')
-                    ->setParameter(':user', $infoRecherche['userConnecte']);
+            //dd($infoRecherche['userConnecte']);
+            $req->andWhere('a.manager = :user')
+                ->setParameter(':user', $infoRecherche['userConnecte']);
         }
         $dateJour=new \DateTime();
         if($infoRecherche['finishActivityS']===true) {
             $req->andWhere('a.beginDateTime < :date')
                 ->setParameter(':date', $dateJour);
         }
-        if($infoRecherche['registeredS']===true) {
-            $req->join('a.registrations','r')
-                ->andWhere('r.user =:user')
-                ->setParameter(':user', $infoRecherche['userConnecte']);
+        if($infoRecherche['registeredS']===true&&$infoRecherche['registeredNot']===true){
+            //  $this->addFlash('error', "Merci de préciser le motif d'annulation");
+        }else {
+            if ($infoRecherche['registeredS'] === true) {
+                $req->join('a.registrations', 'r')
+                    ->andWhere('r.user =:user')
+                    ->setParameter(':user', $infoRecherche['userConnecte']);
+            }
+            if ($infoRecherche['registeredNot'] === true) {
+                $req->join('a.registrations', 'r')
+                    ->andWhere('r.user <>:user')
+                    ->setParameter(':user', $infoRecherche['userConnecte']);
+            }
         }
-        if($infoRecherche['registeredNot']===true) {
-            $req->join('a.registrations','r')
-                ->andWhere('r.user <>:user')
-                ->setParameter(':user', $infoRecherche['userConnecte']);
-        }
-//        public function getUserFromRegister($id) {
-//            $req = $this->createQueryBuilder('activity')
-//                ->select('activity.registrations')
-//                ->join('activity.user')
-//                ->where('activity.id = :id')->setParameter(':id', $id);
-//
-//            return $req->getQuery()->getResult();
-//        }
-
 
         return $req->getQuery()->getResult();
     }
@@ -105,7 +100,7 @@ class ActivityRepository extends ServiceEntityRepository
         // Objectif Mettre les activité commencées et pas terminées en statut en cours
         // Je paramètre ma date du jour et heure du jour
         $maintenant = new \DateTime('now');
-       // $dureeActivite = new \DateTime('activity.beginDateTime + activity.duration');
+        // $dureeActivite = new \DateTime('activity.beginDateTime + activity.duration');
         // Je recherche toutes les activités dont la date de début est inférieur à la date du jour
         // et qui sont active
         $req = $this->createQueryBuilder('activity')
@@ -122,17 +117,17 @@ class ActivityRepository extends ServiceEntityRepository
             $id=$activity->getId();
             $duration=$activity->getDuration();
             $beginTime=$activity->getBeginDateTime();
-           // Je rajoute le temps de l'activité
+            // Je rajoute le temps de l'activité
             $endate=$beginTime->modify("+{$duration} minutes");
             $activity->setRegistrationDeadLine($endate);
-           // dd($endate);
+            // dd($endate);
             // J'affiche
             //dd($activity);
             if($endate>=$maintenant){
                 $resultTab[]=$activity;
             }
         }
-         return $resultTab;
+        return $resultTab;
     }
 
 

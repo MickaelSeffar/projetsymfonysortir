@@ -54,6 +54,9 @@ class HomeController extends AbstractController
             'endDateS'=>$form['endDate']->getData(),
             'userConnecte'=>$userconnecte,
         ];
+        if($infoRecherche['registeredS']===true&&$infoRecherche['registeredNot']===true){
+            $this->addFlash('error', "Il faut choisir entre inscrit/e ou non inscrit/e");
+        }
         $activityfound= $entityManager->getRepository('App:Activity')->search($infoRecherche);
         // je pagine
         $activityfound = $paginator->paginate($activityfound,

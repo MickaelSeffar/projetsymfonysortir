@@ -141,6 +141,9 @@ class ActivityController extends AbstractController
         $form = $this->createForm(CancelType::class,$activiteSupprimer );
         // J'hydrate le formulaire
         $form->handleRequest($request);
+
+
+
         if ($form->isSubmitted() && $form->isValid()) {
             $reason=$form['cancellationReason']->getData();
             if($reason!=null) {
