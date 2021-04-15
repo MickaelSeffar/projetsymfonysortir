@@ -111,3 +111,28 @@
         });
     </script>
 {% endblock %}
+
+<div>
+    <div>
+        <div>
+            <p>Date de la sortie : {{ activity.beginDateTime | date("d/m/Y") }}</p>
+            <p class="text-justify">Description : {{ activity.detail | capitalize }}</p>
+            <div class="row">
+                <p class="col">Fin des inscriptions
+                    : {{ activity.registrationDeadline | date("d/m/Y") }}</p>
+                <p class="col">Etat : {{ activity.state }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <p class="text-justify">Description : {{ activity.detail | capitalize }}</p>
+    </div>
+    <div class="col">
+        <p>Date de la sortie : {{ activity.beginDateTime | date("d/m/Y") }}</p>
+        <p class="col">Fin des inscriptions
+            : {{ activity.registrationDeadline | date("d/m/Y") }}</p>
+        <p class="col">Etat : {{ activity.state }}</p>
+    </div>
+</div>

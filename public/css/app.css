@@ -20,3 +20,6 @@ li {
     height: 20%;
     object-fit: cover;
 }
+.container {
+    text-decoration: none;
+}

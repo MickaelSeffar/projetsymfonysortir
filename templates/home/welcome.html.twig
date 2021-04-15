@@ -1,58 +1,61 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Sortir.com{% endblock %}
- {% block titrePage %}Filtrer les sorties{% endblock %}
+    {% block titrePage %}Filtrer les sorties{% endblock %}
 {% block body %}
-    <div class="row">
-        <div class="col-md-4">
-            {{ form_start(searchForm) }}
-            {{ form_row(searchForm.campusName) }}
-            {{ form_row(searchForm.activityName) }}
-            {{ form_row(searchForm.startDate) }}
-            {{ form_row(searchForm.endDate) }}
+    <div class="container">
+        <div class="container w-75">
+            <div class="row">
+                <div class="col-sm">
+                    <div class="col-md-4">
+                        {{ form_start(searchForm) }}
+                        {{ form_row(searchForm.campusName) }}
+                        {{ form_row(searchForm.activityName) }}
+                        {{ form_row(searchForm.startDate) }}
+                        {{ form_row(searchForm.endDate) }}
+                    </div>
+                </div>
+                <div class="col-sm">
+                    <div class="col-md-4">
+                        {{ form_row(searchForm.managerB) }}
+                        {{ form_row(searchForm.registered) }}
+                        {{ form_row(searchForm.registeredActivity) }}
+                        {{ form_row(searchForm.finishActivity) }}
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-secondary">Rechercher</button>
+                        {{ form_end(searchForm) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div>
+                    <button class="btn btn-secondary"><a class="text-reset text-decoration-none"
+                                                         href="{{ path('activity_add') }}">Créer une sortie</a></button>
+                </div>
+            </div>
         </div>
-        <div class="col-md-4">
-            {{ form_row(searchForm.managerB) }}
-            {{ form_row(searchForm.registered) }}
-            {{ form_row(searchForm.registeredActivity) }}
-            {{ form_row(searchForm.finishActivity) }}
-        </div>
-        <div class="col-md-4">
-            <button type="submit" class="btn btn-secondary">Rechercher</button>
-            {{ form_end(searchForm) }}
-        </div>
-        <div>
-            <button class="btn btn-secondary"><a class="text-reset text-decoration-none"
-                                                 href="{{ path('activity_add') }}">Créer
-                    une sortie</a></button>
-        </div>
-        {# <div><p> Je cherche : {{ test }}</p></div> #}
-
-        {# Ce qui était dans liste avant #}
-        <div>
+        <div class="container">
             {% for activity in activities %}
-                <div class="w-50 p-3 container border border-dark rounded">
+                <div class="w-75 p-3 container border border-dark rounded mb-4">
                     <div>
-                        <div class="row border-bottom border-dark">
+                        <div class="row border-bottom border-dark " style="background-color: #313131; color: #C9C9C9">
                             <text class="col font-weight-bold">{{ activity.name | capitalize }}</text>
-                            <p class="col text-right">{{ activity.currentUserNumber }}{# activity.currentUserNumber < 1 ? '0' : '' #}
+                            <p class="col text-center">{{ activity.currentUserNumber }}
                                 / {{ activity.maximumUserNumber }}</p>
                         </div>
-                        <div>
-                            <div>
-                                <div>
-                                    <p>Date de la sortie : {{ activity.beginDateTime | date("d/m/Y") }}</p>
-                                    <p>Description : {{ activity.detail | capitalize }}</p>
-                                    <div class="row">
-                                        <p class="col">Fin des inscriptions
-                                            : {{ activity.registrationDeadline | date("d/m/Y") }}</p>
-                                        <p class="col">Etat : {{ activity.state }}</p>
-
-                                    </div>
-                                </div>
-                                <div>
-
-                                </div>
+                        <div class="row">
+                            <div class="col">
+                                <p class="text-justify">Description : {{ activity.detail | capitalize }}</p>
+                                {% if activity.cancellationReason %}
+                                    <p>Raison de l'annulation : {{ activity.cancellationReason }}</p>
+                                {% endif %}
+                            </div>
+                            <div class="col">
+                                <p>Date de la sortie : {{ activity.beginDateTime | date("d/m/Y") }}</p>
+                                <p class="col">Fin des inscriptions
+                                    : {{ activity.registrationDeadline | date("d/m/Y") }}</p>
+                                <p class="col">Etat : {{ activity.state }}</p>
                             </div>
                         </div>
                     </div>
@@ -62,49 +65,50 @@
                             <a href="{{ url('activity_detail', {"id": activity.id}) }}"
                                class="btn btn-sm btn-outline-secondary">Afficher</a>
                             {% if not activity.cancellationReason %}
-                            {% if activity.isManager(app.user) is same as(false) %}
-                                {# ****** S'INSCRIRE ****** #}
-                                {% if activity.state.name == 'Ouvert' and activity.currentUserNumber < activity.maximumUserNumber and activity.isSubscribed(app.user) is same as(false) %}
-                                    <a href="{{ url('register_activityRegistration', {"activityId": activity.id}) }}"
-                                       class="btn btn-sm btn-outline-secondary">S'inscrire</a>
+                                {% if activity.isManager(app.user) is same as(false) %}
+                                    {# ****** S'INSCRIRE ****** #}
+                                    {% if activity.state.name == 'Ouvert' and activity.currentUserNumber < activity.maximumUserNumber and activity.isSubscribed(app.user) is same as(false) %}
+                                        <a href="{{ url('register_activityRegistration', {"activityId": activity.id}) }}"
+                                           class="btn btn-sm btn-outline-secondary">S'inscrire</a>
+                                    {% endif %}
+                                    {# ****** SE DESISTER ****** #}
+                                    {% if activity.isSubscribed(app.user) %}
+                                        <a href="{{ url('register_unsubscribe', {"activityId": activity.id}) }}"
+                                           class="btn btn-sm btn-outline-secondary">Se désister</a>
+                                    {% endif %}
                                 {% endif %}
-
-                                {# ****** SE DESISTER ****** #}
-                                {% if activity.isSubscribed(app.user) %}
-                                    <a href="{{ url('register_unsubscribe', {"activityId": activity.id}) }}"
-                                       class="btn btn-sm btn-outline-secondary">Se désister</a>
+                                {# ****** Publier ****** #}
+                                {% if activity.state.name == 'En création' and activity.isManager(app.user) %}
+                                    <a href="{{ url('activity_publish', {"id": activity.id}) }}"
+                                       class="btn btn-sm btn-outline-secondary">Publier</a>
                                 {% endif %}
-                            {% endif %}
-                            {# ****** Publier ****** #}
-                            {% if activity.state.name == 'En création' and activity.isManager(app.user) %}
-                                <a href="{{ url('activity_publish', {"id": activity.id}) }}"
-                                   class="btn btn-sm btn-outline-secondary">Publier</a>
-                            {% endif %}
-
-                            {# ****** MODIFIER ****** #}
-                            {% if activity.state.name == 'En création' and activity.isManager(app.user) %}
-                                {% if app.user.administrator == 'true' or activity.manager.username == app.user.username %}
-                                    <a href="{{ url('activity_modify', {"id": activity.id}) }}"
-                                       class="btn btn-sm btn-outline-secondary">Modifier</a>
+                                {# ****** MODIFIER ****** #}
+                                {% if activity.state.name == 'En création' and activity.isManager(app.user) %}
+                                    {% if app.user.administrator == 'true' or activity.manager.username == app.user.username %}
+                                        <a href="{{ url('activity_modify', {"id": activity.id}) }}"
+                                           class="btn btn-sm btn-outline-secondary">Modifier</a>
+                                    {% endif %}
                                 {% endif %}
-                            {% endif %}
-                            {# ****** SUPPRIMER ****** #}
-                            {% if activity.state.name == 'En création' or activity.state.name == 'Ouvert' %}
-                                {% if app.user.administrator == 'true' or activity.manager.username == app.user.username %}
-                                    <a href="{{ url('activity_cancel', {"id": activity.id}) }}"
-                                       class="btn btn-sm btn-outline-secondary">Annuler</a>
+                                {# ****** SUPPRIMER ****** #}
+                                {% if activity.state.name == 'En création' or activity.state.name == 'Ouvert' %}
+                                    {% if app.user.administrator == 'true' or activity.manager.username == app.user.username %}
+                                        <a href="{{ url('activity_cancel', {"id": activity.id}) }}"
+                                           class="btn btn-sm btn-outline-secondary">Annuler</a>
+                                    {% endif %}
                                 {% endif %}
-                            {% endif %}
                             {% endif %}
                         </div>
                         <div class="col">
-                            <a href="{{ url('user_other', {'id': activity.manager.id}) }}">Organisateur
+                            <a href="{{ url('user_other', {'id': activity.manager.id}) }}"
+                               class="text-decoration-none text-secondary">Organisateur
                                 : {{ activity.manager.username }} </a>
                         </div>
                     </div>
                 </div>
             {% endfor %}
-            {{ knp_pagination_render(activities) }}
+            <div style="align-items: center">
+                {{ knp_pagination_render(activities) }}
+            </div>
         </div>
     </div>
     <script>

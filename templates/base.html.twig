@@ -1,81 +1,86 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
 
-        <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/pricing/">
-        <link href="{{ asset('css/app.css')}}" rel="stylesheet">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/pricing/">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-{#        {% block stylesheets %}#}
+    {# {% block stylesheets %} #}
 
-{#        {% endblock %}#}
+    {# {% endblock %} #}
 
-        <link href="https://getbootstrap.com/docs/5.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
-{#        datepicker#}
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-        <script src="https://npmcdn.com/flatpickr/dist/l10n/fr.js"></script>
-{#Favicon#}
-        <link rel="icon" href="{{ asset('img/phare.png')}}"  type="image/png">
+    <link href="https://getbootstrap.com/docs/5.0/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+            crossorigin="anonymous"></script>
+    {# datepicker #}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/fr.js"></script>
+    {# Favicon #}
+    <link rel="icon" href="{{ asset('img/phare.png') }}" type="image/png">
 
 
-    </head>
-    <body>
-    <header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-body border-bottom shadow-sm">
-        <p class="h5 my-0 me-md-auto fw-normal">{% block name %}{% endblock %}</p>
-        {#Logo#}
-        <div class="col-12 col-md">
-            <img class="monLogo" src="{{ asset('img/logo_small.png') }}" alt="Sortir.com">
-        </div>
-        <nav class="my-2 my-md-0 me-md-3">
+</head>
+<body>
+<header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-body border-bottom shadow-sm">
+    <p class="h5 my-0 me-md-auto fw-normal">{% block name %}{% endblock %}</p>
+    {# Logo #}
+    <div class="col-12 col-md">
+        <img class="monLogo" src="{{ asset('img/logo_small.png') }}" alt="Sortir.com">
+    </div>
+    <nav class="my-2 my-md-0 me-md-3">
 
-            {% if (app.user)  %}
-                {% for role in app.user.roles %}
-                    {% if(role=="ROLE_ADMIN") %}
-                        <a class="p-2 text-dark" href="{{ path('app_register') }}">Ajouter un utilisateur</a>
-                        <a class="p-2 text-dark" href="{{ path('city_view') }}">Villes</a>
-                        <a class="p-2 text-dark" href="{{ path('campus_view') }}">Campus</a>
-                    {% endif %}
-                {%  endfor%}
-            {% endif %}
+        {% if (app.user) %}
+            {% for role in app.user.roles %}
+                {% if(role=="ROLE_ADMIN") %}
+                    <a class="p-2 text-dark" href="{{ path('app_register') }}">Ajouter un utilisateur</a>
+                    <a class="p-2 text-dark" href="{{ path('city_view') }}">Villes</a>
+                    <a class="p-2 text-dark" href="{{ path('campus_view') }}">Campus</a>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
 
-            {% if app.user %}
+        {% if app.user %}
             <a class="p-2 text-dark" href="{{ path('home_welcome') }}">Accueil</a>
             <a class="p-2 text-dark" href="{{ path('user_edit') }}">Mon profil</a>
             <a class="p-2 text-dark" href="{{ path('app_logout') }}">Se déconnecter</a>
-            {% endif %}
-            {% if(app.user) %}<div>Date du jour : {{'now'|format_datetime(locale='fr')  }}<br>
-                 Participant :{{ app.user.username }}{% endif %}
+        {% endif %}
+        {% if(app.user) %}
+        <div>Date du jour : {{ 'now'|format_datetime(locale='fr') }}<br>
+            Utilisateur : {{ app.user.username }}{% endif %}
 
-            </div>
-        </nav>
-
-    </header>
-    <div class="container">
-        <h1>{%block titrePage %}{% endblock %}</h1>
-        {% for status, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="flash flash-{{ status }}">{{ message }}</div>
-            {% endfor %}
-        {% endfor %}
-        <div>{% block body %}{% endblock %}</div>
-
-    </div>
-    <footer class="pt-4 my-md-5 pt-md-5 border-top">
-        <div class="row">
-            <div class="col-12 ">
-                <h5 class="text-center">About</h5>
-                <ul class="list-unstyled text-small text-center">
-                    <li><a class="link-secondary" href="#">Privacy</a></li>
-                    <li><a class="link-secondary" href="#">Terms</a></li>
-                </ul>
-                    <p class="text-center">Paul Mickaël Delphine</p>
-            </div>
         </div>
-    </footer>
-    </body>
+    </nav>
+
+</header>
+<div class="container">
+    <div class="text-center">
+        <h1>{% block titrePage %}{% endblock %}</h1>
+    </div>
+    {% for status, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="flash flash-{{ status }}">{{ message }}</div>
+        {% endfor %}
+    {% endfor %}
+    <div>{% block body %}{% endblock %}</div>
+
+</div>
+<footer class="pt-4 my-md-5 pt-md-5 border-top">
+    <div class="row">
+        <div class="col-12 ">
+            <h5 class="text-center">About</h5>
+            <ul class="list-unstyled text-small text-center">
+                <li><a class="link-secondary" href="#">Privacy</a></li>
+                <li><a class="link-secondary" href="#">Terms</a></li>
+            </ul>
+            <p class="text-center">Paul Mickaël Delphine</p>
+        </div>
+    </div>
+</footer>
+</body>
 </html>
