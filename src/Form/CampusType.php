@@ -12,7 +12,9 @@ class CampusType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
+            ->add('name',null,[
+               'required'=>true
+            ]);
         ;
     }
 
@@ -20,6 +22,7 @@ class CampusType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Campus::class,
+            'attr'=> ['novalidate'=>'novalidate']
         ]);
     }
 }

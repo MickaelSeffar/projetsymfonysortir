@@ -1,8 +1,15 @@
 {% extends 'base.html.twig' %}
+{% block title %}Créer un nouveau campus{% endblock %}
 
 {% block body %}
+        <h2>Créer un nouveau campus</h2>
         {{ form_start(campusForm) }}
+        {{ form_row(campusForm.name, {label: 'Nom du Campus'}) }}
         {{ form_widget(campusForm) }}
-        <button type="submit">Ajouter</button>
+        <br>
+        <div class="text-center">
+                <button type="submit"  class="btn btn-sm btn-outline-secondary">Ajouter</button>
+                <a href="{{ url('campus_view') }}"class="btn btn-sm btn-outline-secondary">Retour</a>
+        </div>
         {{ form_end(campusForm) }}
 {% endblock %}

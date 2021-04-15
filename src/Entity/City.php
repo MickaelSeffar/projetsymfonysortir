@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CityRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CityRepository::class)
@@ -19,11 +20,13 @@ class City
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank(message="Ce champs est obligatoire")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=10)
+     * @Assert\NotBlank(message="Ce champs est obligatoire")
      */
     private $postcode;
 

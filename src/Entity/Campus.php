@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CampusRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CampusRepository::class)
@@ -18,7 +19,9 @@ class Campus
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Ce champs est obligatoire")
      * @ORM\Column(type="string", length=50)
+     *
      */
     private $name;
 

@@ -21,6 +21,7 @@ class CityType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => City::class,
+            'attr'=> ['novalidate'=>'novalidate']
         ]);
     }
 }
