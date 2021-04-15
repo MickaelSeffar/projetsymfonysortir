@@ -107,6 +107,11 @@ class User implements UserInterface
      */
     private $registrations;
 
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $csvFieldAdmin;
+
     public function __construct()
     {
         $this->ActivityManager = new ArrayCollection();
@@ -333,6 +338,23 @@ class User implements UserInterface
     public function __toString()
     {
        return $this->username;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getCsvFieldAdmin()
+    {
+        return $this->csvFieldAdmin;
+    }
+
+    /**
+     * @param mixed $csvFieldAdmin
+     */
+    public function setCsvFieldAdmin($csvFieldAdmin): void
+    {
+        $this->csvFieldAdmin = $csvFieldAdmin;
     }
 
 

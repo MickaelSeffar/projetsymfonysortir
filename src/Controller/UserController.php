@@ -6,6 +6,7 @@ namespace App\Controller;
 
 
 use App\Entity\User;
+use App\Form\AdminType;
 use App\Form\EditUserType;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManager;
@@ -72,6 +73,7 @@ class UserController extends AbstractController
 
         return $this->render('user/userProfil.html.twig', ['profil' => $profil]);
     }
+
 
 
 }

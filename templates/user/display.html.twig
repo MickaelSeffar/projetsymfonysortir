@@ -1,16 +1,18 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Affichage du profil de {{ app.user.username }}{% endblock %}
- {%  block titrePage %}{{ app.user.username }}{% endblock %}
+ {% block titrePage %}{{ app.user.username }}{% endblock %}
 {% block body %}
-<div>
-    <ul>
-        <li>Prénom {{ app.user.firstname }}</li>
-        <li>Nom {{ app.user.name }}</li>
-        <li>Téléphone {{ app.user.phone }}</li>
-        <li>Email {{ app.user.email }}</li>
-        <li>Campus {{ app.user.campus.name }}</li>
-        <li>Registration{{ app.user.register.activity.name }}</li>
-    </ul>
-</div>
+    <div>
+        <ul>
+            <li>Prénom {{ app.user.firstname }}</li>
+            <li>Nom {{ app.user.name }}</li>
+            <li>Téléphone {{ app.user.phone }}</li>
+            <li>Email {{ app.user.email }}</li>
+            <li>Campus {{ app.user.campus.name }}</li>
+            {# <li>Registration{{ app.user.register.activity.name }}</li> #}
+        </ul>
+    </div>
+    <a href="{{ url('home_welcome') }}"
+       class="btn btn-sm btn-outline-secondary">Retour</a>
 {% endblock %}
