@@ -47,4 +47,6 @@ class ArchiveActivityCommand extends Command
         $io->success("Yo tout le monde c'est mickmick");
         return 0;
     }
+
+
 }

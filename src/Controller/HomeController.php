@@ -35,26 +35,16 @@ class HomeController extends AbstractController
         // J'hydrate le formulaire
         $form->handleRequest($request);
 
-        // Archivage des activités qui se fait maintenant avec la commande php bin/console app:archive-activity
-        $activityStatus = $entityManager->getRepository('App:Activity')->archiveActivity();
-        foreach ($activityStatus as $activity){
-            $activity->setActive(false);
-        }
-        $entityManager->flush();
-
-        // Fermeture des activités
-       $closeActivity = $entityManager->getRepository('App:Activity')->closeActivity();
-
-        $closeState= $entityManager->getRepository(State::class)->findOneBy(['name'=>'Fermé']);
-        foreach ($closeActivity as $activity){
-            $activity->setState($closeState);
-        }
-
-        $entityManager->flush();
         $userconnecte=$this->getUser();
 
         // J'appelle le service MAJ des Encours
         //$stateMAJService->doStateEnCours();
+
+        //J'appelle le service d'archivage des activités
+        $stateMAJService->archiveActivities();
+
+        //J'appelle le service de fermeture des activités
+        $stateMAJService->closeActivities();
 
         // Si le formulaire est activé
         if ($form->isSubmitted()) {
