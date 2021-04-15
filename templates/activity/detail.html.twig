@@ -1,15 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Détail sortie{% endblock %}
- {% block titrePage %}Détail sortie : {{ activity.name }}{% endblock %}
+ {% block titrePage %}{% endblock %}
+
 {% block body %}
+    <div class="text-center" style="width: auto; background-color: #565656; color: #C9C9C9">
+        <h1>Détail sortie : {{ activity.name }}</h1>
+    </div>
     {# Bloc Principal #}
     <div class="container w-100 p-3">
         <div class="row">
             {# Bloc GAUCHE #}
             <div class="col-sm w-50 p-3">
                 {% if activity.cancellationReason %}
-                <p class="row">Raison de l'annulaition : {{ activity.cancellationReason }}</p>
+                <p class="row">Raison de l'annulation : {{ activity.cancellationReason }}</p>
                 {% endif %}
                 <p class="row">Campus : {{ activity.campus.name }}</p>
                 <p class="row">Date et heure de la sortie : {{ activity.beginDateTime | format_datetime(locale='fr')  }}</p>
@@ -33,12 +37,17 @@
                 <textarea readonly>{{ activity.detail }}</textarea>
             </div>
             {# Bloc LISTE PARTICIPANT #}
-            <div class="row">
+            <div class="row pt-3">
                 Organisateur : <a href="{{ url('user_other', {'id': activity.manager.id}) }}" class="text-decoration-none text-secondary"> - {{ activity.manager }}</a>
                 Liste des participants :
                 {% for registration in users %}
-                    <a href="{{ url('user_other', {'id': registration.user.id}) }}" class="text-decoration-none text-secondary"> - {{ registration.user.name }}</a>
+                    {% if registration.user is not same as activity.manager %}
+                    <a href="{{ url('user_other', {'id': registration.user.id}) }}" class="text-decoration-none text-secondary"> - {{ registration.user.username }}</a>
+                    {% endif %}
                 {% endfor %}
+                {% if activity.registrations|length == 1 %}
+                    <div><p class="font-weight-light">Seul l'organisateur est inscrit.</p></div>
+                {% endif %}
             </div>
         </div>
     </div>

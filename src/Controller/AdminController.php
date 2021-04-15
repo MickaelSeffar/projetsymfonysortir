@@ -22,7 +22,7 @@ class AdminController extends AbstractController
 {
 
     /**
-     * @Route(path="yolo", name="csv")
+     * @Route(path="csv", name="csv")
      */
     public function addUserCsv(Request $request, EntityManagerInterface $entityManager)
     {
