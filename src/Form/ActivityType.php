@@ -25,12 +25,14 @@ class ActivityType extends AbstractType
 //                'time_widget' => 'single_text',
                 'widget'=> 'single_text',
                 'attr' => ['class' => 'datepicker'],
-                'html5' => false
+                'html5' => false,
+                'empty_data' => 'Ce champs est obligatoire'
                 ])
             ->add('registrationDeadline', DateTimeType::class, [
                 'widget'=> 'single_text',
                 'attr' => ['class' => 'datepicker'],
-                'html5' => false
+                'html5' => false,
+                'empty_data' => 'Ce champs est obligatoire'
             ])
             ->add('maximumUserNumber')
             ->add('duration')
