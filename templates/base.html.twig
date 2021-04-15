@@ -59,14 +59,14 @@
 
 </header>
 <div class="container">
-    <div class="text-center">
-        <h1>{% block titrePage %}{% endblock %}</h1>
-    </div>
     {% for status, messages in app.flashes %}
         {% for message in messages %}
             <div class="flash flash-{{ status }}">{{ message }}</div>
         {% endfor %}
     {% endfor %}
+    <div class="text-center">
+        <h1>{% block titrePage %}{% endblock %}</h1>
+    </div>
     <div>{% block body %}{% endblock %}</div>
 
 </div>
