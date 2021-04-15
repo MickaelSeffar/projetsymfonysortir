@@ -13,13 +13,18 @@ class CancelType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
+            ->add('name', null,
+                ['disabled' => true])
             ->add('beginDateTime', DateTimeType::class, [
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text',
+                'disabled' => true
             ])
-            ->add('campus')
-            ->add('location')
+            ->add('campus',null,
+                ['disabled' => true]
+            )
+            ->add('location',null,
+                ['disabled' => true])
             ->add('cancellationReason')
 
         ;
