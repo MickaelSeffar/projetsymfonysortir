@@ -19,6 +19,8 @@ class SearchActivityType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {        $builder
+                    //ce formulaire est en get
+                ->setMethod('get')
                 ->add('campusName',EntityType::class,[
                     'class'=> Campus::class,
                     'mapped'=>false,

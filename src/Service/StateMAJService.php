@@ -25,12 +25,17 @@ class StateMAJService
     {
         // Passage au status "En cours" des activités arrivant à la date de début
         $startActivity = $this->entityManager->getRepository('App:Activity')->startActivity();
-        dd($startActivity);
-//        $inProgressState = $this->entityManager->getRepository(State::class)->findOneBy(['name'=>'En cours']);
-//        foreach ($startActivity as $activity){
-//            $activity->setState($inProgressState);
-//        }
-//        $this->entityManager->flush();
+        $inProgressState = $this->entityManager->getRepository(State::class)->findOneBy(['name'=>'En cours']);
+       // dd($inProgressState);
+       // dd($startActivity);
+
+        foreach ($startActivity as $activity){
+            if(!empty($activity)){
+            $activity->setState($inProgressState);
+            $this->entityManager->flush();
+            }
+        }
+
     }
 
     public function archiveActivities()

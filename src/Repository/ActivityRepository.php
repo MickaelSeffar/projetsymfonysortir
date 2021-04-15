@@ -110,7 +110,7 @@ class ActivityRepository extends ServiceEntityRepository
         // et qui sont active
         $req = $this->createQueryBuilder('activity')
             ->select('activity')
-            ->where('activity.beginDateTime >= :startDate')
+            ->where('activity.beginDateTime < :startDate')
             ->andWhere('activity.active= true')
             ->setParameter(':startDate',$maintenant);
         $result = $req->getQuery()->getResult();
