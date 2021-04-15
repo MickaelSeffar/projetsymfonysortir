@@ -104,7 +104,7 @@ class ActivityRepository extends ServiceEntityRepository
     public function startActivity(){
         // Objectif Mettre les activité commencées et pas terminées en statut en cours
         // Je paramètre ma date du jour et heure du jour
-        $startDate = new \DateTime('now');
+        $maintenant = new \DateTime('now');
        // $dureeActivite = new \DateTime('activity.beginDateTime + activity.duration');
         // Je recherche toutes les activités dont la date de début est inférieur à la date du jour
         // et qui sont active
@@ -112,23 +112,27 @@ class ActivityRepository extends ServiceEntityRepository
             ->select('activity')
             ->where('activity.beginDateTime >= :startDate')
             ->andWhere('activity.active= true')
-            ->setParameter(':startDate',$startDate);
+            ->setParameter(':startDate',$maintenant);
         $result = $req->getQuery()->getResult();
-        // Je parcours ces résultat et je regarde si la durée est finie
+        // Je parcours ces résultats, pour chaque activité je calcul la dateheure de fin
+        // je regarde si cette date est dans le futur
+        // je rassemble les activités sélectionnées dans un tableau
+        $resultTab[]=null;
         foreach ($result as $activity) {
             $id=$activity->getId();
             $duration=$activity->getDuration();
             $beginTime=$activity->getBeginDateTime();
-           // Je rajoute du temps
+           // Je rajoute le temps de l'activité
             $endate=$beginTime->modify("+{$duration} minutes");
+            $activity->setRegistrationDeadLine($endate);
+           // dd($endate);
             // J'affiche
-            dd($endate, $id);
-            // Après il faudrait le rajouter dans un tableau mais je sais plus comment
+            //dd($activity);
+            if($endate>=$maintenant){
+                $resultTab[]=$activity;
+            }
         }
-
-        //return $resultTab;
-        //Si l'activité est pas finie, je la stock dans un tableau à retourner
-
+         return $resultTab;
     }
 
 

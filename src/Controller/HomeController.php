@@ -7,6 +7,7 @@ use App\Entity\State;
 use App\Entity\Activity;
 use App\Form\ActivityType;
 use App\Form\SearchActivityType;
+use App\Service\StateMAJService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -25,7 +26,7 @@ class HomeController extends AbstractController
     /**
      * @Route(path="", name="welcome")
      */
-    public function home(Request $request, EntityManagerInterface $entityManager,PaginatorInterface  $paginator) {
+    public function home(Request $request, EntityManagerInterface $entityManager,PaginatorInterface  $paginator, StateMAJService $stateMAJService) {
         // Je récupère toutes les lignes de la table register
         //$registrations = $entityManager->getRepository('App:Register')->findAll();
         $activityTest=new Activity();
@@ -43,6 +44,7 @@ class HomeController extends AbstractController
 
         // Fermeture des activités
        $closeActivity = $entityManager->getRepository('App:Activity')->closeActivity();
+
         $closeState= $entityManager->getRepository(State::class)->findOneBy(['name'=>'Fermé']);
         foreach ($closeActivity as $activity){
             $activity->setState($closeState);
@@ -51,15 +53,8 @@ class HomeController extends AbstractController
         $entityManager->flush();
         $userconnecte=$this->getUser();
 
-
-        // Passage au status "En cours" des activités arrivant à la date de début
-//        $startActivity = $entityManager->getRepository('App:Activity')->startActivity();
-//
-//        $inProgressState = $entityManager->getRepository(State::class)->findOneBy(['name'=>'En cours']);
-//        foreach ($startActivity as $activity){
-//            $activity->setState($inProgressState);
-//        }
-//             $entityManager->flush();
+        // J'appelle le service MAJ des Encours
+        //$stateMAJService->doStateEnCours();
 
         // Si le formulaire est activé
         if ($form->isSubmitted()) {
