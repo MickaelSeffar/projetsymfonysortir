@@ -140,7 +140,7 @@ class AppFixtures extends Fixture
             $activity->setManager($faker->RandomElement($allUser));
             $activity->setName($faker->text(40));
             $activity->setBeginDateTime($faker->dateTimeBetween('-2 years', '+ 6 months'));
-            $activity->setDuration($faker->numberBetween(1, 10));
+            $activity->setDuration($faker->numberBetween(30, 1000));
             $activity->setRegistrationDeadline($faker->dateTime('now', null));
             $activity->setMaximumUserNumber($faker->numberBetween(2, 20));
             $activity->setCurrentUserNumber($faker->numberBetween(2, 20));

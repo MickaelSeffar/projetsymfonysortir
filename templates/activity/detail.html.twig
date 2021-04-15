@@ -8,6 +8,9 @@
         <div class="row">
             {# Bloc GAUCHE #}
             <div class="col-sm w-50 p-3">
+                {% if activity.cancellationReason %}
+                <p class="row">Raison de l'annulaition : {{ activity.cancellationReason }}</p>
+                {% endif %}
                 <p class="row">Campus : {{ activity.campus.name }}</p>
                 <p class="row">Date et heure de la sortie : {{ activity.beginDateTime | date("d/m/Y H:m:s") }}</p>
                 <p class="row">Date limite d'inscription : {{ activity.registrationDeadline | date("d/m/Y H:m:s") }}</p>

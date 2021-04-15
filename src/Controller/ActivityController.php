@@ -133,8 +133,8 @@ class ActivityController extends AbstractController
      */
     public function cancel(Request $request,EntityManagerInterface $entityManager) {
         // Récupérer id Etat annuler
-        $cancelState= $entityManager->getRepository(State::class)->findOneBy(['name'=>'Fermé']);
-        // Je recupère mon id et monactivité
+        $cancelState= $entityManager->getRepository(State::class)->findOneBy(['name'=>'Annulé']);
+        // Je recupère mon id et mon activité
         $id = $request->get('id');
         $activiteSupprimer=$entityManager->getRepository('App:Activity')->find($id);
         // Je créer un formulaire et j'y met mon activité
@@ -144,8 +144,8 @@ class ActivityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $reason=$form['cancellationReason']->getData();
             if($reason!=null) {
+                $activiteSupprimer->setCancellationReason($reason);
                 $activiteSupprimer->setState($cancelState);
-                $activiteSupprimer->setActive(false);
                 $entityManager->persist($activiteSupprimer);
                 $entityManager->flush();
                 $this->addFlash('success', "L'activité $activiteSupprimer est supprimée");

@@ -82,7 +82,6 @@ class HomeController extends AbstractController
                 'test'=>$infoRecherche['campusS'] ]);
         }
 
-
         // Je récupère toutes les activités active
         $activities = $entityManager->getRepository('App:Activity')->getActive();
         // Je les pagine par 10
@@ -94,5 +93,7 @@ class HomeController extends AbstractController
         return $this->render('home/welcome.html.twig',['searchForm'=>$form->createView(),'activities'=>$activities]);
 
     }
+
+
 
 }

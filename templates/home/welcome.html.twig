@@ -29,6 +29,11 @@
    <div class="w-50 p-3 container border border-dark rounded">
     <div class="row">
      <text class="col font-weight-bold">{{ activity.name | capitalize }}</text>
+    <div>{% if activity.cancellationReason %}
+      <p>Raison de l'annulation : {{ activity.cancellationReason }}</p>
+     {% endif %}
+     {% if not activity.cancellationReason  %}
+    </div>
      <p class="col text-right">{{ activity.currentUserNumber }}{# activity.currentUserNumber < 1 ? '0' : '' #}
       / {{ activity.maximumUserNumber }}</p>
     </div>
@@ -39,7 +44,9 @@
        <p>Description : {{ activity.detail | capitalize }}</p>
        <div class="row">
         <p class="col">Fin des inscriptions : {{ activity.registrationDeadline | date("d/m/Y") }}</p>
+        {% endif %}
         <p class="col">Etat : {{ activity.state }}</p>
+
        </div>
       </div>
       <div>
