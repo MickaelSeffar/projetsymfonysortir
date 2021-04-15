@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block titrePage %}
+    YOLOOOOOO
+{% endblock %}
+
+{% block body %}
+    {{ form_start(formAdmin) }}
+    {{ form_widget(formAdmin) }}
+    <button type="submit">Ajouter</button>
+    {{ form_end(formAdmin) }}
+{% endblock %}
