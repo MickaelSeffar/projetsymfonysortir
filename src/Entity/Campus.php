@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CampusRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CampusRepository::class)
@@ -19,6 +20,8 @@ class Campus
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank(message="Le nom est obligatoire")
+     * @Assert\Regex(pattern="/^[a-zA-Zéà]+$/", message="Le nom de doit contenir que des lettres")
      */
     private $name;
 

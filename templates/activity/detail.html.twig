@@ -38,11 +38,11 @@
             </div>
             {# Bloc LISTE PARTICIPANT #}
             <div class="row pt-3">
-                Organisateur : <a href="{{ url('user_other', {'id': activity.manager.id}) }}" class="text-decoration-none text-secondary"> - {{ activity.manager }}</a>
+                Organisateur : <a href="{{ url('user_other', {'id': activity.manager.id}) }}" class="text-secondary"> - {{ activity.manager }}</a>
                 Liste des participants :
                 {% for registration in users %}
                     {% if registration.user is not same as activity.manager %}
-                    <a href="{{ url('user_other', {'id': registration.user.id}) }}" class="text-decoration-none text-secondary"> - {{ registration.user.username }}</a>
+                    <a href="{{ url('user_other', {'id': registration.user.id}) }}" class="text-secondary"> - {{ registration.user.username }}</a>
                     {% endif %}
                 {% endfor %}
                 {% if activity.registrations|length == 1 %}

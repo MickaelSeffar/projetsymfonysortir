@@ -34,26 +34,29 @@
         <img class="monLogo" src="{{ asset('img/logo_small.png') }}" alt="Sortir.com">
     </div>
     <nav class="my-2 my-md-0 me-md-3">
-
-        {% if (app.user) %}
-            {% for role in app.user.roles %}
-                {% if(role=="ROLE_ADMIN") %}
-                    <a class="p-2 text-dark" href="{{ path('app_register') }}">Ajouter un utilisateur</a>
-                    <a class="p-2 text-dark" href="{{ path('city_view') }}">Villes</a>
-                    <a class="p-2 text-dark" href="{{ path('campus_view') }}">Campus</a>
+        <div class="col">
+            <div class="">
+                {% if (app.user) %}
+                    {% for role in app.user.roles %}
+                        {% if(role=="ROLE_ADMIN") %}
+                            <a class="p-2 text-dark" href="{{ path('app_register') }}">Ajouter un utilisateur</a>
+                            <a class="p-2 text-dark" href="{{ path('city_view') }}">Villes</a>
+                            <a class="p-2 text-dark" href="{{ path('campus_view') }}">Campus</a>
+                        {% endif %}
+                    {% endfor %}
                 {% endif %}
-            {% endfor %}
-        {% endif %}
 
-        {% if app.user %}
-            <a class="p-2 text-dark" href="{{ path('home_welcome') }}">Accueil</a>
-            <a class="p-2 text-dark" href="{{ path('user_edit') }}">Mon profil</a>
-            <a class="p-2 text-dark" href="{{ path('app_logout') }}">Se déconnecter</a>
-        {% endif %}
-        {% if(app.user) %}
-        <div>Date du jour : {{ 'now'|format_date(locale='fr') }}<br>
-            Utilisateur : {{ app.user.username }}{% endif %}
-
+                {% if app.user %}
+                    <a class="p-2 text-dark" href="{{ path('home_welcome') }}">Accueil</a>
+                    <a class="p-2 text-dark" href="{{ path('user_edit') }}">Mon profil</a>
+                    <a class="p-2 text-dark" href="{{ path('app_logout') }}">Se déconnecter</a>
+                {% endif %}
+                {% if(app.user) %}
+            </div>
+            <div class="">
+                Date du jour : {{ 'now'|format_date(locale='fr') }}<br>
+                Utilisateur : {{ app.user.username }}{% endif %}
+            </div>
         </div>
     </nav>
 

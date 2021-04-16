@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CityRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CityRepository::class)
@@ -19,11 +20,16 @@ class City
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank(message="Le nom est obligatoire")
+     * @Assert\Regex(pattern="/^[a-zA-Zéà]+$/", message="Le nom de doit contenir que des lettres")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=10)
+     * @Assert\NotBlank(message="Le code postal est obligatoire")
+     * @Assert\Length(min="5", max="5")
+     * @Assert\Regex(pattern="/^[0-9]{4,6}$/", message="Le code postal ne doit contenir que des chiffres")
      */
     private $postcode;
 
