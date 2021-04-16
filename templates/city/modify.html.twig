@@ -3,13 +3,21 @@
 {% block title %}Modifier une ville{% endblock %}
 
 {% block body %}
-    <h2>Modification de la ville</h2>
+    <h2>Modifier une ville</h2>
     {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit">Modifier</button>
-    {{ form_end(form) }}
-    <div>
-        <a href="{{ url('city_view') }}"
-           class="btn btn-sm btn-outline-secondary">Retour</a>
+    {{ form_row(form.name, {label: 'Nom de la ville'}) }}
+    {{ form_row(form.postcode, {label: 'Code Postal'}) }}
+    <br>
+
+
+    <div class="text-center">
+        <button type="submit"  class="btn btn-sm btn-outline-secondary">Modifier</button>
+        <a href="{{ url('city_view') }}"class="btn btn-sm btn-outline-secondary">Retour</a>
+
     </div>
+
+
+    {{ form_end(form) }}
+
+
 {% endblock %}

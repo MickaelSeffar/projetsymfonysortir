@@ -25,13 +25,13 @@ class HomeController extends AbstractController
      */
     public function home(Request $request, EntityManagerInterface $entityManager,PaginatorInterface  $paginator, StateMAJService $stateMAJService) {
         // J'appelle le service MAJ des Encours
-        //$stateMAJService->doStateEnCours();
+        $stateMAJService->doStateEnCours();
 
         //J'appelle le service d'archivage des activités
-        //$stateMAJService->archiveActivities();
+        $stateMAJService->archiveActivities();
 
         //J'appelle le service de fermeture des activités
-        //$stateMAJService->closeActivities();
+        $stateMAJService->closeActivities();
         $activityTest=new Activity();
         // Je créer un formulaire
         $form = $this->createForm(SearchActivityType::class,$activityTest );

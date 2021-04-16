@@ -1,76 +1,76 @@
-{#{% extends 'base.html.twig' %}#}
+{% extends 'base.html.twig' %}
 
-{#{% block titrePage %}Liste des sorties{% endblock %}#}
+{% block titrePage %}Liste des sorties{% endblock %}
 
-{#{% block body %}#}
-{#    <div>#}
-{#        {% for activity in activities %}#}
-{#            <div class="w-50 p-3 container border border-dark rounded">#}
-{#                <div class="row">#}
-{#                    <text class="col font-weight-bold">{{ activity.name | capitalize }}</text>#}
-{#                    <p class="col text-right">{{ activity.currentUserNumber }}#}{# activity.currentUserNumber < 1 ? '0' : '' #}
-{#                        / {{ activity.maximumUserNumber }}</p>#}
-{#                </div>#}
-{#                <div>#}
-{#                    <div>#}
-{#                        <div>#}
-{#                            <p>Date de la sortie : {{ activity.beginDateTime | date("d/m/Y") }}</p>#}
-{#                            <p>Description : {{ activity.detail | capitalize }}</p>#}
-{#                            <div class="row">#}
-{#                                <p class="col">Cloture : {{ activity.registrationDeadline | date("d/m/Y") }}</p>#}
-{#                                <p class="col">Etat : {{ activity.state }}</p>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                        <div>#}
+{% block body %}
+    <div>
+        {% for activity in activities %}
+            <div class="w-50 p-3 container border border-dark rounded">
+                <div class="row">
+                    <text class="col font-weight-bold">{{ activity.name | capitalize }}</text>
+                    <p class="col text-right">{{ activity.currentUserNumber }} activity.currentUserNumber < 1 ? '0' : ''
+                        / {{ activity.maximumUserNumber }}</p>
+                </div>
+                <div>
+                    <div>
+                        <div>
+                            <p>Date de la sortie : {{ activity.beginDateTime | date("d/m/Y") }}</p>
+                            <p>Description : {{ activity.detail | capitalize }}</p>
+                            <div class="row">
+                                <p class="col">Cloture : {{ activity.registrationDeadline | date("d/m/Y") }}</p>
+                                <p class="col">Etat : {{ activity.state }}</p>
+                            </div>
+                        </div>
+                        <div>
 
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#                <div class="btn-group">#}
-{#                    #}{# ****** AFFICHER ****** #}
-{#                    <a href="{{ url('activity_detail', {"id": activity.id}) }}"#}
-{#                       class="btn btn-sm btn-outline-secondary">Afficher</a>#}
-{#                    #}{# ****** S'INSCRIRE ****** #}
-{#                    {% if activity.state.name == 'Ouvert' and activity.currentUserNumber < activity.maximumUserNumber and activity.isSubscribed(app.user) is same as(false) %}#}
-{#                        <a href="{{ url('register_activityRegistration', {"activityId": activity.id}) }}"#}
-{#                           class="btn btn-sm btn-outline-secondary">S'inscrire</a>#}
-{#                    {% endif %}#}
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group">
+                     ****** AFFICHER ******
+                    <a href="{{ url('activity_detail', {"id": activity.id}) }}"
+                       class="btn btn-sm btn-outline-secondary">Afficher</a>
+                     ****** S'INSCRIRE ******
+                    {% if activity.state.name == 'Ouvert' and activity.currentUserNumber < activity.maximumUserNumber and activity.isSubscribed(app.user) is same as(false) %}
+                        <a href="{{ url('register_activityRegistration', {"activityId": activity.id}) }}"
+                           class="btn btn-sm btn-outline-secondary">S'inscrire</a>
+                    {% endif %}
 
-                    {# ****** SE DESISTER ****** #}
-{#                    {% if activity.isSubscribed(app.user) %}#}
-{#                        <a href="{{ url('register_unsubscribe', {"activityId": activity.id}) }}"#}
-{#                           class="btn btn-sm btn-outline-secondary">Se désister</a>#}
-{#                    {% endif %}#}
-{#                    #}{# ****** SE DESISTER ****** #}
-{#                    {{ dump(activity.registrations.toArray) }}#}
-{#                    {% if activity.isSubscribed(app.user) %}#}
-{#                        <a href="{{ url('register_unsubscribe', {"activityId": activity.id}) }}"#}
-{#                           class="btn btn-sm btn-outline-secondary">Se désister</a>#}
-{#                    {% endif %}#}
+                     ****** SE DESISTER ******
+                    {% if activity.isSubscribed(app.user) %}
+                        <a href="{{ url('register_unsubscribe', {"activityId": activity.id}) }}"
+                           class="btn btn-sm btn-outline-secondary">Se désister</a>
+                    {% endif %}
+                     ****** SE DESISTER ******
+                    {{ dump(activity.registrations.toArray) }}
+                    {% if activity.isSubscribed(app.user) %}
+                        <a href="{{ url('register_unsubscribe', {"activityId": activity.id}) }}"
+                           class="btn btn-sm btn-outline-secondary">Se désister</a>
+                    {% endif %}
 
-{#                    #}{# ****** Publier ****** #}
-{#                    {% if activity.state.name == 'En création' %}#}
-{#                        <a href="{{ url('activity_publish', {"id": activity.id}) }}"#}
-{#                           class="btn btn-sm btn-outline-secondary">Publier</a>#}
-{#                    {% endif %}#}
+                     ****** Publier ******
+                    {% if activity.state.name == 'En création' %}
+                        <a href="{{ url('activity_publish', {"id": activity.id}) }}"
+                           class="btn btn-sm btn-outline-secondary">Publier</a>
+                    {% endif %}
 
-{#                    #}{# ****** MODIFIER ****** #}
-{#                    {% if activity.state.name == 'En création' %}#}
-{#                    {% if app.user.administrator == 'true' or activity.manager.username == app.user.username %}#}
-{#                        <a href="{{ url('activity_modify', {"id": activity.id}) }}"#}
-{#                           class="btn btn-sm btn-outline-secondary">Modifier</a>#}
-{#                    {% endif %}#}
-{#                    {% endif %}#}
-{#                    #}{# ****** SUPPRIMER ****** #}
-{#                    {% if activity.state.name == 'En création' or activity.state.name == 'Ouvert'%}#}
-{#                    {% if app.user.administrator == 'true' or activity.manager.username == app.user.username %}#}
-{#                        <a href="{{ url('activity_cancel', {"id": activity.id}) }}"#}
-{#                           class="btn btn-sm btn-outline-secondary">Supprimer</a>#}
-{#                    {% endif %}#}
-{#                    {% endif %}#}
-{#                </div>#}
-{#            </div>#}
-{#        {% endfor %}#}
-{#        {{ knp_pagination_render(activities) }}#}
-{#    </div>#}
-{#{% endblock %}#}
+                     ****** MODIFIER ******
+                    {% if activity.state.name == 'En création' %}
+                    {% if app.user.administrator == 'true' or activity.manager.username == app.user.username %}
+                        <a href="{{ url('activity_modify', {"id": activity.id}) }}"
+                           class="btn btn-sm btn-outline-secondary">Modifier</a>
+                    {% endif %}
+                    {% endif %}
+                     ****** SUPPRIMER ******
+                    {% if activity.state.name == 'En création' or activity.state.name == 'Ouvert'%}
+                    {% if app.user.administrator == 'true' or activity.manager.username == app.user.username %}
+                        <a href="{{ url('activity_cancel', {"id": activity.id}) }}"
+                           class="btn btn-sm btn-outline-secondary">Supprimer</a>
+                    {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+        {{ knp_pagination_render(activities) }}
+    </div>
+{% endblock %}

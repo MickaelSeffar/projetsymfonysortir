@@ -1,11 +1,17 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Créer nouvelle ville{% endblock %}
+{% block title %}Créer une nouvelle ville{% endblock %}
 
 {% block body %}
-    <h2>Ajout d'une nouvelle ville</h2>
+    <h2>Créer une nouvelle ville</h2>
     {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit">Ajouter</button>
+    {{ form_row(form.name, {label: 'Nom de la ville'}) }}
+    {{ form_row(form.postcode, {label: 'Code Postal'}) }}
+    <br>
+    <div class="text-center">
+        <button type="submit"  class="btn btn-sm btn-outline-secondary">Ajouter</button>
+        <a href="{{ url('city_view') }}"class="btn btn-sm btn-outline-secondary">Retour</a>
+    </div>
+
     {{ form_end(form) }}
 {% endblock %}

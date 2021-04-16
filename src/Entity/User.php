@@ -25,7 +25,8 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(message="Ce champs est obligatoire")
+     *  @ORM\Column(type="string", length=180, unique=true)
      * @Assert\Type(type="string", message="Le pseudo ne doit contenir que du texte")
      * @Assert\Length(min="5", minMessage="Le pseudo est trop court. Min 5 caractères")
      */
@@ -44,6 +45,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank(message="Ce champs est obligatoire")
      * @Assert\Regex(
      *     pattern="/\d/",
      *     match=false,
@@ -53,6 +55,7 @@ class User implements UserInterface
     private $name;
 
     /**
+     * @Assert\NotBlank(message="Ce champs est obligatoire")
      * @ORM\Column(type="string", length=50)
      * @Assert\Regex(
      *     pattern="/\d/",
@@ -64,6 +67,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=10)
+     * @Assert\NotBlank(message="Ce champs est obligatoire")
      * @Assert\Regex(pattern="#^0[1-68]([-. ]?[0-9]{2}){4}$#", message="Merci d'entrer 10 chiffres")
       */
     private $phone;

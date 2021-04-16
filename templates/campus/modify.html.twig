@@ -1,12 +1,15 @@
 {% extends 'base.html.twig' %}
-
+{% block title %}Modifier Campus{% endblock %}
 {% block body %}
+
+    <h2>Modifier Campus</h2>
     {{ form_start(campusForm) }}
-    {{ form_widget(campusForm) }}
-    <button type="submit">Modifier</button>
-    {{ form_end(campusForm) }}
-    <div>
-        <a href="{{ url('campus_view') }}"
-           class="btn btn-sm btn-outline-secondary">Retour</a>
+    {{ form_row(campusForm.name, {label: 'Nom du Campus'}) }}
+   <br>
+    <div class="text-center">
+        <button type="submit"  class="btn btn-sm btn-outline-secondary">Modifier</button>
+        <a href="{{ url('campus_view') }}"class="btn btn-sm btn-outline-secondary">Retour</a>
     </div>
+    {{ form_end(campusForm) }}
+
 {% endblock %}

@@ -1,11 +1,12 @@
 {%  extends "base.html.twig" %}
-
+{% block title %}Liste des Campus{% endblock %}
 {% block body %}
+    <h2>Liste des campus</h2>
     <ul>
         {% for campuss in campus %}
-            <li>{{ campuss.name }} <a href="{{ url('campus_modify', {'id': campuss.id}) }}">Modifier</a> <a href="{{ url('campus_delete', {"id": campuss.id}) }}">Supprimer</a></li>
+            <li>{{ campuss.name }} <a class="text-secondary" href="{{ url('campus_modify', {'id': campuss.id}) }}">Modifier</a> <a class="text-secondary" href="{{ url('campus_delete', {"id": campuss.id}) }}">Supprimer</a></li>
         {% endfor %}
-        <li><a href="{{ path('campus_add') }}">Ajouter</a></li>
+        <li><a class="text-secondary" href="{{ path('campus_add') }}">Ajouter</a></li>
         {{ knp_pagination_render(campus) }}
     </ul>
 
